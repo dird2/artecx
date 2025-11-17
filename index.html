@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Webpage Draft</title>
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; }
+    .section-hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .slideshow {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      overflow: hidden;
+    }
+    .slideshow img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      animation: fadeSlide 20s infinite;
+    }
+    .slideshow img:nth-child(1) { animation-delay: 0s; }
+    .slideshow img:nth-child(2) { animation-delay: 5s; }
+    .slideshow img:nth-child(3) { animation-delay: 10s; }
+    .slideshow img:nth-child(4) { animation-delay: 15s; }
+
+    @keyframes fadeSlide {
+      0%, 20% { opacity: 1; }
+      25%, 100% { opacity: 0; }
+    }
+    .logo {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .tagline {
+      position: absolute;
+      top: 60%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 48px;
+      font-weight: 600;
+      color: white;
+      text-shadow: 0px 4px 12px rgba(0,0,0,0.5);
+    }
+      .section-report { background:black; color:#fff; padding:80px 40px; }
+    .section-report-inner {
+      max-width:1200px;
+      margin:0 auto;
+      display:flex;
+      gap:40px;
+      align-items:center;
+    }
+    .section-report-text h2 {
+      font-size:36px;
+      font-weight:700;
+      margin:0 0 20px;
+    }
+    .section-report-text p {
+      font-size:16px;
+      line-height:1.5;
+      margin:0 0 24px;
+    }
+    .section-report-card {
+      flex: 1;
+    }
+    .section-report-text {
+      flex: 1;
+    }
+    .section-report-card-inner {
+      background:#fff;
+      padding:32px;
+      border-radius:12px;
+    }
+    .section-report-card-inner img {
+      width:100%;
+      max-width:420px;
+      border-radius:8px;
+      display:block;
+      margin:0 auto 20px;
+    }
+    .section-report-links a {
+      display:block;
+      font-size:16px;
+      margin-bottom:8px;
+      text-decoration:none;
+      color:#000;
+    }
+    .section-report-links a span.arrow {
+      margin-right:6px;
+    }
+    .section-report-image img {
+      width:100%;
+      max-width:360px;
+      border-radius:4px;
+      display:block;
+    }
+    @media (max-width: 900px) {
+      .section-report-inner {
+        flex-direction:column;
+      }
+      .section-report-image {
+        order:-1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="section-hero">
+    <div class="slideshow">
+      <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80" alt="Scenery 1" />
+      <img src="https://images.unsplash.com/photo-1470770903676-69b98201ea1c?auto=format&fit=crop&w=1600&q=80" alt="Scenery 2" />
+      <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80" alt="Scenery 3" />
+      <img src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=1600&q=80" alt="Scenery 4" />
+    </div>
+    <div class="logo" style="font-size:32px; font-weight:800; color:white;">artecx<sup>®</sup></div>
+    <div class="tagline">coding for convenience</div>
+  </section>
+  <section class="projects" style="padding:60px 40px; background:#fff;">
+    <h2 style="font-size:32px; font-weight:700; margin-bottom:30px;">Our Focus</h2>
+
+    <div class="project-grid" style="display:flex; gap:20px; flex-wrap:wrap;">
+
+      <div class="project-card" style="flex:1; min-width:280px; border-radius:12px; overflow:hidden; position:relative; cursor:pointer;">
+        <img src="https://images.unsplash.com/photo-1534237710431-e2fc698436d0?auto=format&fit=crop&w=900&q=80" style="width:100%; height:350px; object-fit:cover;" />
+        <div style="position:absolute; bottom:20px; left:20px; font-size:22px; color:white; font-weight:600; text-shadow:0 3px 6px rgba(0,0,0,0.5);">City Bus</div>
+        <div style="position:absolute; bottom:20px; right:20px; font-size:26px; color:white; font-weight:700; text-shadow:0 3px 6px rgba(0,0,0,0.5);">›</div>
+      </div>
+
+      <div class="project-card" style="flex:1; min-width:280px; border-radius:12px; overflow:hidden; position:relative; cursor:pointer;">
+        <img src="https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=900&q=80" style="width:100%; height:350px; object-fit:cover;" />
+        <div style="position:absolute; bottom:20px; left:20px; font-size:22px; color:white; font-weight:600; text-shadow:0 3px 6px rgba(0,0,0,0.5);">Pet Care</div>
+        <div style="position:absolute; bottom:20px; right:20px; font-size:26px; color:white; font-weight:700; text-shadow:0 3px 6px rgba(0,0,0,0.5);">›</div>
+      </div>
+
+      <div class="project-card" style="flex:1; min-width:280px; border-radius:12px; overflow:hidden; position:relative; cursor:pointer;">
+        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80" style="width:100%; height:350px; object-fit:cover;" />
+        <div style="position:absolute; bottom:20px; left:20px; font-size:22px; color:white; font-weight:600; text-shadow:0 3px 6px rgba(0,0,0,0.5);">SOP System</div>
+        <div style="position:absolute; bottom:20px; right:20px; font-size:26px; color:white; font-weight:700; text-shadow:0 3px 6px rgba(0,0,0,0.5);">›</div>
+      </div>
+
+    </div>
+  </section>
+  <section class="section-report">
+    <div class="section-report-inner">
+      <div class="section-report-text">
+        <h2>People &amp; Money:<br>The next wave of ETF investors in Europe</h2>
+        <p>With ETFs emerging as the fastest-growing investment product in Europe, our 2025 People &amp; Money research tracks the evolution of ETF ownership since 2022. It highlights key demographic and regional growth opportunities and offers practical insights into how we can help build confidence and engagement among new investors.</p>
+      </div>
+      <div class="section-report-card">
+        <div class="section-report-card-inner">
+          <img src="section3-image.jpg" alt="People &amp; Money report" />
+          <div class="section-report-links">
+            <a href="#"><span class="arrow">›</span> Download UK report</a>
+            <a href="#"><span class="arrow">›</span> Download European report</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section-four" style="padding:60px 40px; background:red;">
+    <h2 style="font-size:32px; font-weight:700; margin-bottom:30px;">Reimagined</h2>
+    <div class="section4-grid" style="display:flex; gap:20px; flex-wrap:wrap;">
+
+      <!-- Block 1: Video Placeholder Image -->
+      <div class="section4-card" style="flex:1; min-width:280px; border-radius:12px; overflow:hidden; position:relative; cursor:pointer;">
+        <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=1200&q=80" style="width:100%; height:350px; object-fit:cover; filter:brightness(0.6);" />
+        <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:70px; height:70px; background:white; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 10px rgba(0,0,0,0.4);">
+          <div style="width:0; height:0; border-top:14px solid transparent; border-bottom:14px solid transparent; border-left:22px solid black; margin-left:4px;"></div>
+        </div>
+      </div>
+
+      <!-- Block 2: LinkedIn Message -->
+      <div class="section4-card" style="flex:1; min-width:280px; border-radius:12px; overflow:hidden; background:#f5f5f5; padding:24px; font-family:Arial, sans-serif;">
+        <div style="font-size:16px; line-height:1.5; color:#333; margin-bottom:12px;">"Proud to share our latest milestone. Grateful for the team making this journey possible!"</div>
+        <div style="font-size:14px; color:#0073b1; font-weight:600;">— LinkedIn • Your Name</div>
+      </div>
+
+      <!-- Block 3: Photo -->
+      <div class="section4-card" style="flex:1; min-width:280px; border-radius:12px; overflow:hidden; position:relative;">
+        <img src="https://images.unsplash.com/photo-1506765515384-028b60a970df?auto=format&fit=crop&w=900&q=80" style="width:100%; height:350px; object-fit:cover;" />
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section-five" style="padding:60px 40px; background:#fff;">
+    <div style="max-width:1200px; margin:0 auto;">
+      <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80" alt="Our mission" style="width:100%; border-radius:12px; margin-bottom:20px;" />
+      <h2 style="font-size:28px; font-weight:700; margin-bottom:10px;">Our mission</h2>
+      <p style="font-size:16px; margin-bottom:20px;">Ignite the human spirit through movement</p>
+      <a href="#" style="display:inline-block; padding:12px 24px; background:#000; color:#fff; border-radius:30px; text-decoration:none; font-size:16px;">Read more →</a>
+    </div>
+  </section>
+
+    <footer class="section-six" style="padding:60px 40px; background:#111; color:#f5f5f5;">
+    <div style="max-width:1200px; margin:0 auto;">
+      <!-- Top row: logo + link columns + newsletter -->
+      <div style="display:flex; flex-wrap:wrap; gap:40px; margin-bottom:40px; align-items:flex-start;">
+        <!-- Brand -->
+        <div style="flex:1; min-width:220px;">
+          <div style="font-size:22px; font-weight:700; margin-bottom:12px;">Your Company</div>
+          <p style="font-size:14px; line-height:1.6; color:#ccc;">Building tools and experiences that make everyday workflows simpler, smarter, and more human.</p>
+        </div>
+
+        <!-- Links column 1 -->
+        <div style="flex:1; min-width:160px; font-size:14px;">
+          <div style="font-weight:600; margin-bottom:10px;">Product</div>
+          <a href="#" style="display:block; color:#f5f5f5; text-decoration:none; margin-bottom:6px;">Overview</a>
+          <a href="#" style="display:block; color:#f5f5f5; text-decoration:none; margin-bottom:6px;">City Bus</a>
+          <a href="#" style="display:block; color:#f5f5f5; text-decoration:none; margin-bottom:6px;">Pet Care</a>
+          <a href="#" style="display:block; color:#f5f5f5; text-decoration:none; margin-bottom:6px;">SOP System</a>
+        </div>
+
+        <!-- Links column 2 -->
+        <div style="flex:1; min-width:160px; font-size:14px;">
+          <div style="font-weight:600; margin-bottom:10px;">Company</div>
+          <a href="#" style="display:block; color:#f5f5f5; text-decoration:none; margin-bottom:6px;">About</a>
+          <a href="#" style="display:block; color:#f5f5f5; text-decoration:none; margin-bottom:6px;">Careers</a>
+          <a href="#" style="display:block; color:#f5f5f5; text-decoration:none; margin-bottom:6px;">Press</a>
+          <a href="#" style="display:block; color:#f5f5f5; text-decoration:none; margin-bottom:6px;">Contact</a>
+        </div>
+
+        <!-- Newsletter -->
+        <div style="flex:1; min-width:220px; font-size:14px;">
+          <div style="font-weight:600; margin-bottom:10px;">Stay in the loop</div>
+          <p style="color:#ccc; margin-bottom:10px;">Subscribe for product updates, case studies, and launch news.</p>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <input type="email" placeholder="Work email" style="flex:1; min-width:140px; padding:10px 12px; border-radius:4px; border:1px solid #333; background:#1a1a1a; color:#f5f5f5; font-size:14px;" />
+            <button style="padding:10px 18px; border-radius:4px; border:none; background:#f5f5f5; color:#111; font-weight:600; cursor:pointer; font-size:14px;">Subscribe</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div style="height:1px; background:#333; margin-bottom:20px;"></div>
+
+      <!-- Bottom row: legal + social -->
+      <div style="display:flex; flex-wrap:wrap; gap:20px; justify-content:space-between; align-items:center; font-size:12px; color:#aaa;">
+        <div>© 2025 Your Company. All rights reserved.</div>
+        <div>
+          <a href="#" style="color:#aaa; text-decoration:none; margin-right:12px;">Terms</a>
+          <a href="#" style="color:#aaa; text-decoration:none; margin-right:12px;">Privacy</a>
+          <a href="#" style="color:#aaa; text-decoration:none; margin-right:12px;">Cookies</a>
+          <a href="#" style="color:#aaa; text-decoration:none;">Accessibility</a>
+        </div>
+        <div style="display:flex; gap:12px; font-size:16px;">
+          <span>Fb</span>
+          <span>Ig</span>
+          <span>Ln</span>
+          <span>X</span>
+          <span>Yt</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
