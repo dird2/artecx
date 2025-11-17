@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>artecx® – Travel Safe</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif; background-color: #000; color: #fff; }
+    .hero { position: relative; min-height: 100vh; width: 100%; background-image: url("https://images.pexels.com/photos/373912/pexels-photo-373912.jpeg"); background-size: cover; background-position: center; background-repeat: no-repeat; display: flex; flex-direction: column; }
+    .hero::before { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.75)); z-index: 0; }
+    .hero-inner { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; padding: 32px 5vw; }
+    .hero-header { display: flex; align-items: center; justify-content: flex-start; }
+    .logo { font-size: 32px; font-weight: 800; color: white; }
+    .logo .tm { font-size: 0.6em; vertical-align: super; margin-left: 2px; }
+    .hero-content { position: absolute; left: 50%; top: 60%; transform: translateX(-50%); text-align: center; padding: 0 5vw; }
+    .hero-content h1 { font-size: 48px; font-weight: 600; line-height: 1.2; text-transform: lowercase; letter-spacing: 0.04em; text-shadow: 0 4px 18px rgba(0,0,0,0.7); white-space: nowrap; }
+    .hero-content h1 span { display: block; }
+    @media (max-width: 600px) { .hero { background-position: center bottom; } .hero-content { top: 65%; } .logo { font-size: 24px; } }
+      .section-flow { background:#ffffff; color:#000000; padding:240px 8vw 80px; }
+    .flow-inner { max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px; align-items: stretch; }
+    .section-label { text-transform: uppercase; letter-spacing: 0.18em; font-size: 11px; font-weight: 500; opacity: 0.7; margin-bottom: 12px; }
+    .section-flow h2 { font-size: 32px; line-height: 1.3; margin-bottom: 16px; }
+    .flow-steps { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding: 0; margin: 0; }
+    .flow-steps li { background: #f4f4f4; border-radius: 20px; padding: 18px 18px 16px; box-shadow: 0 18px 45px rgba(0,0,0,0.4); display: flex; flex-direction: column; gap: 10px; }
+    .flow-steps li h3 { font-size: 16px; margin-bottom: 4px; }
+    .flow-steps li p { font-size: 14px; line-height: 1.6; opacity: 0.9; }
+    .graph-visual { margin-top: 4px; flex: 1; min-height: 150px; border-radius: 12px; overflow: hidden; background: #ddd; position: relative; background-size: cover; background-position: center; }
+.graph-visual--location { background-image: url("https://api.mapbox.com/styles/v1/mapbox/light-v11/static/-0.1278,51.5074,14/600x300?access_token=YOUR_MAPBOX_TOKEN"); }
+.graph-visual--perimeter { background-image: url("https://api.mapbox.com/styles/v1/mapbox/light-v11/static/-0.1278,51.5074,11/600x300?access_token=YOUR_MAPBOX_TOKEN"); }
+.graph-visual--street { background-image: url("https://api.mapbox.com/styles/v1/mapbox/light-v11/static/-0.1337,51.50998,13/800x400?access_token=YOUR_MAPBOX_TOKEN"); }
+.bus-icon { position: absolute; width: 26px; height: 26px; border-radius: 6px; background: url('https://cdn.jsdelivr.net/gh/tabler/tabler-icons/icons/bus.svg') center/70% no-repeat #ffffff; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 10px rgba(0,0,0,0.35); }
+
+.bus-icon.bus-up { left: 52%; animation: bus-up 6s linear infinite; }
+.bus-icon.bus-down { left: 48%; animation: bus-down 6s linear infinite; }
+@keyframes bus-up { from { top: 100%; } to { top: -20%; } }
+@keyframes bus-down { from { top: -20%; } to { top: 100%; } }
+@keyframes user-pulse { 0% { transform: scale(1); box-shadow:0 0 6px rgba(0,255,163,0.6); } 70% { transform: scale(1.5); box-shadow:0 0 18px rgba(0,255,163,1); } 100% { transform: scale(1); box-shadow:0 0 6px rgba(0,255,163,0.4); } }
+@keyframes stop-pulse { 0% { transform: scale(1); box-shadow:0 0 5px rgba(255,255,255,0.5); } 70% { transform: scale(1.35); box-shadow:0 0 14px rgba(255,255,255,1); } 100% { transform: scale(1); box-shadow:0 0 4px rgba(255,255,255,0.4); } }
+@keyframes walk-dash { 0% { background-position-y: 0; } 100% { background-position-y: 12px; } } to { top: 100%; } }
+    .graph-visual--perimeter::before { content: ""; position: absolute; width: 140px; height: 140px; border-radius: 999px; border: 1px dashed rgba(255, 255, 255, 0.45); left: 50%; top: 50%; transform: translate(-50%, -50%); }
+    .graph-visual--perimeter::after { content: ""; position: absolute; width: 10px; height: 10px; border-radius: 999px; background: #ffffff; box-shadow: 0 0 10px rgba(255, 255, 255, 0.9); top: 22%; left: 62%; }
+    .graph-visual--street::before { content: ""; position: absolute; width: 4px; height: 130%; background: linear-gradient(to bottom, rgba(255,255,255,0.6), rgba(255,255,255,0)); left: 50%; top: -15%; transform: translateX(-50%); border-radius: 999px; }
+    .graph-visual--street::after { content: ""; position: absolute; width: 10px; height: 10px; border-radius: 4px; background: #ffffff; left: 50%; transform: translateX(-50%); top: 18%; box-shadow: 0 90px 0 #ffffff; }
+    .flow-steps li h3 { font-size: 16px; margin-bottom: 4px; }
+    .flow-steps li p { font-size: 14px; line-height: 1.6; opacity: 0.9; }
+    .flow-copy { flex: 1.1; }
+    .flow-visual { flex: 1; display: flex; justify-content: center; }
+    .map-card { background: #0b101a; border-radius: 20px; padding: 18px 18px 16px; width: 100%; max-width: 380px; box-shadow: 0 18px 45px rgba(0,0,0,0.6); display: flex; flex-direction: column; gap: 12px; }
+    .map-header { font-size: 13px; opacity: 0.75; }
+    .map-body { position: relative; border-radius: 16px; background: radial-gradient(circle at 40% 30%, #1f4bff, #060814 70%); height: 260px; overflow: hidden; }
+    .map-circle { position: absolute; width: 180px; height: 180px; border-radius: 999px; border: 1px dashed rgba(255, 255, 255, 0.35); left: 50%; top: 50%; transform: translate(-50%, -50%); }
+    .map-user-dot { position: absolute; width: 14px; height: 14px; border-radius: 999px; background: #00ffa3; box-shadow: 0 0 18px rgba(0, 255, 163, 0.85); left: 50%; top: 50%; transform: translate(-50%, -50%); }
+    .map-street { position: absolute; width: 5px; height: 140%; background: linear-gradient(to bottom, rgba(255,255,255,0.3), rgba(255,255,255,0)); left: 62%; top: -20%; border-radius: 999px; }
+    .map-bus { position: absolute; width: 18px; height: 18px; border-radius: 8px; background: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #000; font-weight: 600; }
+    .map-bus::before { content: "🚌"; }
+    .map-bus.bus-up { left: 60%; top: 18%; }
+    .map-bus.bus-down { left: 64%; bottom: 18%; }
+    .map-footer { font-size: 12px; opacity: 0.8; line-height: 1.5; }
+    @media (max-width: 860px) {
+      .flow-inner { gap: 32px; }
+      .section-flow { padding: 56px 6vw; }
+      .flow-steps { grid-template-columns: 1fr; }
+    }
+      .section-flow { padding: 56px 6vw; }
+    }
+  .user-dot { position:absolute; width:12px; height:12px; border-radius:999px; background:#00ffa3; box-shadow:0 0 12px rgba(0,255,163,0.9); top:55%; left:42%; z-index:auto; animation:user-pulse 1.6s ease-out infinite; }
+.stop-dot { position:absolute; width:12px; height:12px; border-radius:999px; background:#ffffff; box-shadow:0 0 10px rgba(255,255,255,0.8); top:30%; left:70%; z-index:5; animation:stop-pulse 2s ease-out infinite; }
+.walk-path { position:absolute; width:2px; height:180px; background: repeating-linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0) 6px, rgba(255,255,255,0.9) 6px, rgba(255,255,255,0.9) 12px); transform: rotate(28deg); top:38%; left:55%; opacity:0.9; z-index:4; animation:walk-dash 1s linear infinite; }
+.section-network { background:#ffffff; color:#000000; padding:72px 8vw 96px; }
+    .network-inner { max-width:1120px; margin:0 auto; display:flex; flex-direction:column; gap:24px; }
+    .section-network h2 { font-size:32px; line-height:1.3; }
+    .section-network p { font-size:15px; max-width:520px; line-height:1.7; opacity:0.9; }
+    .network-layout { display:flex; flex-direction:column; gap:24px; }
+    .network-card { background:#f4f4f4; border-radius:20px; padding:18px; box-shadow:0 18px 45px rgba(0,0,0,0.4); }
+    .city-map { position:relative; width:100%; min-height:480px; border-radius:18px; overflow:hidden; background-image:url("https://api.mapbox.com/styles/v1/mapbox/light-v11/static/-0.1278,51.5074,11/1600x900?access_token=YOUR_MAPBOX_TOKEN"); background-size:cover; background-position:center; }
+    .city-map::before { content:""; position:absolute; inset:0; background:radial-gradient(circle at 20% 10%, rgba(0,0,0,0.35), transparent 55%), linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)); }
+    .network-bus { position:absolute; width:20px; height:20px; border-radius:6px; background:url('https://cdn.jsdelivr.net/gh/tabler/tabler-icons/icons/bus.svg') center/70% no-repeat #ffffff; box-shadow:0 0 10px rgba(0,0,0,0.45); opacity:0.92; }
+    .network-bus.bus-a { top:12%; left:18%; animation:net-bus-h 16s linear infinite; }
+    .network-bus.bus-b { top:18%; left:72%; animation:net-bus-h 19s linear reverse infinite; }
+    .network-bus.bus-c { top:42%; left:10%; animation:net-bus-h 17s linear infinite; }
+    .network-bus.bus-d { top:48%; left:80%; animation:net-bus-h 18s linear reverse infinite; }
+    .network-bus.bus-e { top:70%; left:22%; animation:net-bus-h 20s linear infinite; }
+    .network-bus.bus-f { top:76%; left:78%; animation:net-bus-h 22s linear reverse infinite; }
+    .network-bus.bus-g { top:28%; left:35%; animation:net-bus-v 18s linear infinite; }
+    .network-bus.bus-h { top:65%; left:40%; animation:net-bus-v 21s linear reverse infinite; }
+    .network-bus.bus-i { top:18%; left:50%; animation:net-bus-v 19s linear infinite; }
+    .network-bus.bus-j { top:60%; left:55%; animation:net-bus-v 23s linear reverse infinite; }
+    .network-bus.bus-k { top:32%; left:64%; animation:net-bus-diag 24s linear infinite; }
+    .network-bus.bus-l { top:68%; left:30%; animation:net-bus-diag 26s linear reverse infinite; }
+    @keyframes net-bus-h { from { transform:translateX(-40%); } to { transform:translateX(40%); } }
+    @keyframes net-bus-v { from { transform:translateY(-40%); } to { transform:translateY(40%); } }
+    @keyframes net-bus-diag { from { transform:translate(-35%,35%); } to { transform:translate(35%,-35%); } }
+    @media (max-width:860px){ .section-network { padding:56px 6vw 80px; } } }
+  
+/* Footer Section */
+.section-six {
+  padding: 72px 8vw 60px;
+  background: #111;
+  color: #f5f5f5;
+  font-family: inherit;
+}
+
+
+.footer-container {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.footer-top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  margin-bottom: 32px;
+  align-items: flex-start;
+}
+
+
+.footer-brand {
+  flex: 1;
+  min-width: 220px;
+}
+
+.footer-brand-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.footer-brand p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #ccc;
+}
+
+.footer-col {
+  flex: 1;
+  min-width: 160px;
+  font-size: 14px;
+}
+
+.footer-col-title {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.footer-col a {
+  display: block;
+  color: #f5f5f5;
+  text-decoration: none;
+  margin-bottom: 6px;
+}
+
+.footer-newsletter {
+  flex: 1;
+  min-width: 220px;
+  font-size: 14px;
+}
+
+.footer-newsletter p {
+  color: #ccc;
+  margin-bottom: 10px;
+}
+
+.newsletter-input {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.newsletter-input input {
+  flex: 1;
+  min-width: 140px;
+  padding: 10px 12px;
+  border-radius: 4px;
+  border: 1px solid #333;
+  background: #1a1a1a;
+  color: #f5f5f5;
+  font-size: 14px;
+}
+
+.newsletter-input button {
+  padding: 10px 18px;
+  border-radius: 4px;
+  border: none;
+  background: #f5f5f5;
+  color: #111;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.footer-divider { height: 1px; background:#333; margin-bottom: 8px; }
+
+.footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #aaa;
+}
+
+
+.footer-links a {
+  color: #aaa;
+  text-decoration: none;
+  margin-right: 12px;
+}
+
+.footer-social {
+  display: flex;
+  gap: 12px;
+  font-size: 16px;
+}
+
+.footer-container {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+@media (max-width: 860px) {
+  .footer-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+</style>
+</head>
+<body>
+  <section class="hero">
+    <div class="hero-inner">
+      <header class="hero-header">
+        <div class="logo">artecx<span class="tm">®</span></div>
+      </header>
+      <div class="hero-content">
+        <h1>travel on time. travel safe</h1>
+      </div>
+          
+    </div>
+  </section>
+  <section class="section-flow">
+    <div class="flow-inner">
+      <div class="flow-copy">
+        
+        <h2 style="font-size:32px;font-weight:600;margin-bottom:72px;">From your live location to the right bus, in seconds.</h2>
+        <ol class="flow-steps">
+          <li>
+            <h3>Reads your location</h3>
+            <p>The app securely reads your location and finds the nearest bus stop.</p>
+            <div class="graph-visual graph-visual--location"><div class="user-dot"></div></div>
+          </li>
+          <li>
+            <h3>Locate</h3>
+            <p>The app precisely maps the buses. Pick your route, get ready for the journey.</p>
+            <div class="graph-visual graph-visual--perimeter">
+              <div class="user-dot"></div>
+              <div class="stop-dot"></div>
+              <div class="walk-path"></div>
+            </div>
+          </li>
+          <li>
+            <h3>On time</h3>
+            <p>Precisely know the arrival time, plan your journey and travel safe.</p>
+            <div class="graph-visual graph-visual--street"><div class="bus-icon bus-up"></div><div class="bus-icon bus-down"></div></div>
+          </li>
+        </ol>
+        </div>
+        
+        <!-- Row 02: Block 04 -->
+        <div class="network-card" style="background:#f4f4f4;border-radius:20px;padding:18px;box-shadow:0 18px 45px rgba(0,0,0,0.15);margin-top:32px;">
+          <h3 style="font-size:18px;margin-bottom:6px;">Up &amp; running</h3>
+          <p style="font-size:14px;line-height:1.6;opacity:0.9;margin-bottom:18px;">The entire network serving you and millions more — day and night.</p>
+          <div class="city-map" style="position:relative;width:100%;min-height:420px;border-radius:16px;overflow:hidden;background:url('https://images.pexels.com/photos/2446963/pexels-photo-2446963.jpeg?auto=compress&cs=tinysrgb&w=1600') center/cover no-repeat;"></div>
+        </div>
+
+            
+    </div>
+  </section>
+
+  <section class="section-passion" style="background:#ffffff;color:#000;padding:96px 8vw;text-align:left;">
+    <div style="max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:20px;">
+      <h2 style="font-size:32px;font-weight:600;">Passion for engineering</h2>
+      <p style="font-size:16px;line-height:1.7;max-width:620px;opacity:0.9;">
+        Engineering is more than systems and code — it's the drive to build, solve, and create what moves the world forward.
+      </p>
+      <button style="margin-top:12px; align-self:flex-start; background:#000; color:#fff; padding:14px 26px; border-radius:40px; font-size:15px; font-weight:500; border:none; cursor:pointer; display:flex; align-items:center; gap:10px;">
+        Read more <span style="font-size:18px; line-height:0;">→</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- Section 04 -->
+  <section class="section-stories" style="background:#ffffff;color:#000;padding:120px 8vw 120px;text-align:left;">
+    <div style="max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:32px;">
+      <div>
+        <h2 style="font-size:32px;font-weight:600;">Stories that tell the tale</h2>
+        <p style="font-size:16px;line-height:1.7;max-width:620px;opacity:0.9;margin-top:8px;">Real journeys, real people, and the small wins that happen when travel simply works.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;">
+        <article style="background:#f4f4f4;border-radius:20px;padding:16px 16px 20px;box-shadow:0 18px 45px rgba(0,0,0,0.06);display:flex;flex-direction:column;gap:12px;">
+          <div style="border-radius:14px;overflow:hidden;background:#ddd;height:160px;background-image:url('https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=1200');background-size:cover;background-position:center;"></div>
+          <h3 style="font-size:16px;font-weight:600;">Catching the last bus home</h3>
+          <p style="font-size:14px;line-height:1.6;opacity:0.9;">How artecx helped a nurse finish a late shift and still get home on time, without guessing routes.</p>
+        </article>
+        <article style="background:#f4f4f4;border-radius:20px;padding:16px 16px 20px;box-shadow:0 18px 45px rgba(0,0,0,0.06);display:flex;flex-direction:column;gap:12px;">
+          <div style="border-radius:14px;overflow:hidden;background:#ddd;height:160px;background-image:url('https://images.pexels.com/photos/327040/pexels-photo-327040.jpeg?auto=compress&cs=tinysrgb&w=1200');background-size:cover;background-position:center;"></div>
+          <h3 style="font-size:16px;font-weight:600;">Travel to work</h3>
+          <p style="font-size:14px;line-height:1.6;opacity:0.9;">From campus to city, knowing exactly when the next bus arrives keeps every minute of the day usable.</p>
+        </article>
+        <article style="background:#f4f4f4;border-radius:20px;padding:16px 16px 20px;box-shadow:0 18px 45px rgba(0,0,0,0.06);display:flex;flex-direction:column;gap:12px;">
+          <div style="border-radius:14px;overflow:hidden;background:#ddd;height:160px;background-image:url('https://images.pexels.com/photos/227417/pexels-photo-227417.jpeg?auto=compress&cs=tinysrgb&w=1200');background-size:cover;background-position:center;"></div>
+          <h3 style="font-size:16px;font-weight:600;">Weekend in the city</h3>
+          <p style="font-size:14px;line-height:1.6;opacity:0.9;">Exploring a new city becomes easier when you see the whole network at a glance, right in your hand.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  
+
+  
+
+</body>
+</html>
