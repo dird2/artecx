@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Accident & Emergency Response</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    /* SECTION 01 – HERO */
+    .hero-emergency {
+      min-height: 100vh;
+      background: #c1121f; /* emergency red */
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero-header {
+      padding: 20px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .hero-logo {
+      font-size: 32px;
+      font-weight: 800;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+    }
+
+    .hero-logo sup {
+      font-size: 0.45em;
+      position: relative;
+      top: -0.3em;
+    }
+
+    .hero-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      padding: 0 24px 40px;
+      text-align: center;
+    }
+
+    .hero-title {
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 700;
+      max-width: 640px;
+      line-height: 1.2;
+    }
+
+    .hero-cross {
+      position: relative;
+      width: 140px;
+      height: 140px;
+    }
+
+    .hero-cross::before,
+    .hero-cross::after {
+      content: "";
+      position: absolute;
+      background: #ffffff;
+      border-radius: 6px;
+    }
+
+    /* vertical bar */
+    .hero-cross::before {
+      width: 32%;
+      height: 100%;
+      left: 34%;
+      top: 0;
+    }
+
+    /* horizontal bar */
+    .hero-cross::after {
+      width: 100%;
+      height: 32%;
+      left: 0;
+      top: 34%;
+    }
+
+    /* SECTION 02 – INSTRUCTIONS */
+    .section-instructions {
+      padding: 80px 8vw;
+      background: #ffffff;
+      color: #111827;
+    }
+
+    .instructions-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    .instructions-header h2 {
+      font-size: 28px;
+      font-weight: 700;
+      margin: 0 0 8px;
+    }
+
+    .instructions-header p {
+      margin: 0;
+      max-width: 560px;
+      line-height: 1.7;
+      font-size: 16px;
+      opacity: 0.9;
+    }
+
+    /* Carousel wrapper */
+    .instructions-carousel {
+      display: flex;
+      gap: 24px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 8px;
+      margin-top: 8px;
+      scroll-behavior: smooth;
+    }
+
+    .instructions-carousel::-webkit-scrollbar {
+      display: none;
+    }
+
+    .instructions-slide {
+      min-width: 100%;
+      scroll-snap-align: start;
+    }
+
+    /* Layout inside each slide: 2x2 grid (text row, phones row) */
+    .instructions-steps {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-areas:
+        "text1 text2"
+        "phone1 phone2";
+      column-gap: 40px;
+      row-gap: 24px;
+      align-items: start;
+    }
+
+    .step-content--1 {
+      grid-area: text1;
+    }
+
+    .step-content--2 {
+      grid-area: text2;
+    }
+
+    .step-phone--1 {
+      grid-area: phone1;
+    }
+
+    .step-phone--2 {
+      grid-area: phone2;
+    }
+
+    .step-content {
+      margin-top: 0;
+    }
+
+    .step-content h3 {
+      font-size: 22px;
+      margin: 0 0 8px;
+      font-weight: 700;
+    }
+
+    .step-content p {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.7;
+      opacity: 0.9;
+    }
+
+    .step-phone {
+      display: flex;
+      justify-content: center;
+    }
+
+    /* Phone visuals */
+    .phone-frame {
+      width: 200px;
+      max-width: 100%;
+      aspect-ratio: 9 / 19;
+      border-radius: 24px;
+      border: 2px solid #e5e7eb;
+      padding: 8px;
+      background: #0f172a;
+      box-shadow: 0 14px 32px rgba(15, 23, 42, 0.35);
+    }
+
+    /* Screen 1 – location */
+    .phone-screen {
+      width: 100%;
+      height: 100%;
+      border-radius: 22px;
+      background: radial-gradient(circle at 50% 35%, #ef4444 0, #ef4444 6px, transparent 7px),
+                  radial-gradient(circle at 80% 70%, #60a5fa, #0ea5e9),
+                  #111827;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .location-pulse {
+      position: absolute;
+      width: 46px;
+      height: 46px;
+      border-radius: 999px;
+      border: 2px solid rgba(248, 250, 252, 0.6);
+      top: 32%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0.8;
+    }
+
+    .location-dot {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: #f97316;
+      top: 32%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 0 4px rgba(248, 250, 252, 0.9);
+    }
+
+    /* Screen 2 – search results */
+    .phone-screen--search {
+      background: #020617;
+      padding: 14px 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .search-header {
+      width: 52px;
+      height: 10px;
+      border-radius: 999px;
+      background: #1f2937;
+      opacity: 0.9;
+      align-self: flex-start;
+    }
+
+    .search-input {
+      height: 32px;
+      border-radius: 999px;
+      background: #111827;
+      box-shadow: 0 0 0 1px rgba(148, 163, 184, 0.5);
+    }
+
+    .search-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .search-item {
+      height: 34px;
+      border-radius: 10px;
+      background: #020617;
+      box-shadow: 0 0 0 1px rgba(31, 41, 55, 0.95);
+      opacity: 0.95;
+    }
+
+    .search-item--highlight {
+      background: #022c22;
+      box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.8);
+    }
+
+    /* Screen 3 – hospital map */
+    .phone-screen--map {
+      background: #020617;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .map-road {
+      position: absolute;
+      background: #111827;
+      opacity: 0.9;
+      border-radius: 999px;
+    }
+
+    .map-road--h {
+      left: 10%;
+      right: 10%;
+      top: 45%;
+      height: 14px;
+    }
+
+    .map-road--v {
+      top: 18%;
+      bottom: 18%;
+      left: 46%;
+      width: 14px;
+    }
+
+    .map-block {
+      position: absolute;
+      width: 46px;
+      height: 30px;
+      border-radius: 10px;
+      background: #0f172a;
+      box-shadow: 0 0 0 1px rgba(55, 65, 81, 0.9);
+    }
+
+    .map-block--hospital {
+      left: 55%;
+      top: 22%;
+      background: #0b3b3b;
+      box-shadow: 0 0 0 1px rgba(45, 212, 191, 0.9);
+    }
+
+    .map-marker {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: #f97316;
+      left: 67%;
+      top: 48%;
+      box-shadow: 0 0 0 4px rgba(248, 250, 252, 0.12);
+    }
+
+    /* Slider dots */
+    .instructions-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .instructions-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      border: none;
+      background: #e5e7eb;
+      padding: 0;
+      cursor: pointer;
+    }
+
+    .instructions-dot.is-active {
+      background: #111827;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .instructions-steps {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas:
+          "text1"
+          "phone1"
+          "text2"
+          "phone2";
+        row-gap: 32px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hero-header {
+        padding: 16px 20px;
+      }
+
+      .hero-logo {
+        font-size: 22px;
+      }
+
+      .hero-cross {
+        width: 110px;
+        height: 110px;
+      }
+    }
+      /* SECTION 03 – VETS & HOSPITALS */
+    .section-network {
+      padding: 80px 8vw 96px;
+      background: #f9fafb;
+      color: #111827;
+    }
+
+    .network-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 32px;
+      align-items: flex-start;
+    }
+
+    .network-media {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      min-height: 320px;
+      background: #020617;
+    }
+
+    .network-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transform: scale(1.04);
+      transform-origin: center;
+      animation: networkPan 22s ease-in-out infinite alternate;
+    }
+
+    .network-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(15, 23, 42, 0.85), transparent 55%);
+      pointer-events: none;
+    }
+
+    @keyframes networkPan {
+      0% {
+        transform: scale(1.04) translateY(0);
+      }
+      100% {
+        transform: scale(1.1) translateY(-4%);
+      }
+    }
+
+    .network-layer {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      width: 100%;
+      max-width: 720px;
+    }
+
+    .network-card {
+      border-radius: 18px;
+      background: #020617;
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.65);
+      padding: 18px 14px 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .network-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(248, 250, 252, 0.08);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #e5e7eb;
+      margin-bottom: 12px;
+    }
+
+    .network-pill-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      opacity: 0.9;
+    }
+
+    .network-pill {
+      height: 8px;
+      border-radius: 999px;
+      background: #020617;
+      box-shadow: 0 0 0 1px rgba(31, 41, 55, 0.95);
+    }
+
+    .network-pill--accent {
+      background: #16a34a;
+      box-shadow: 0 0 0 1px rgba(22, 163, 74, 0.95);
+    }
+
+    .network-icon-ambulance {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      width: 30px;
+      height: 18px;
+      border-radius: 6px;
+      background: #f97316;
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.8);
+    }
+
+    .network-icon-ambulance::before,
+    .network-icon-ambulance::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      background: #020617;
+    }
+
+    .network-icon-ambulance::before {
+      width: 8px;
+      height: 8px;
+      bottom: -4px;
+      left: 4px;
+    }
+
+    .network-icon-ambulance::after {
+      width: 8px;
+      height: 8px;
+      bottom: -4px;
+      right: 4px;
+    }
+
+    .network-footer {
+      margin-top: 8px;
+    }
+
+    .network-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin: 0 0 6px;
+    }
+
+    .network-text {
+      margin: 0 0 16px;
+      max-width: 520px;
+      font-size: 15px;
+      line-height: 1.7;
+      opacity: 0.9;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: #111827;
+      color: #f9fafb;
+      font-size: 14px;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary span {
+      font-size: 16px;
+      line-height: 1.05;
+    }
+
+    .btn-primary:hover {
+      background: #020617;
+    }
+
+    @media (max-width: 720px) {
+      .network-inner {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .network-media {
+        padding: 20px 16px 28px;
+        min-height: 260px;
+      }
+    }
+
+      .network-media {
+        padding: 20px 16px 28px;
+        min-height: 260px;
+      }
+
+      .network-layer {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+      .network-layer {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    /* SECTION 04 – POWERED BY TAXI */
+    .section-powered {
+      padding: 80px 8vw 96px;
+      background: #ffffff;
+      color: #111827;
+    }
+
+    .powered-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .powered-media {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      min-height: 320px;
+      background: #020617;
+    }
+
+    .powered-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transform: scale(1.04);
+      transform-origin: center;
+      animation: networkPan 22s ease-in-out infinite alternate;
+    }
+
+    .powered-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(24, 24, 27, 0.9), transparent 55%);
+      pointer-events: none;
+    }
+
+    .powered-footer {
+      margin-top: 8px;
+    }
+
+    .powered-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin: 0 0 6px;
+    }
+
+    .powered-title sup {
+      font-size: 0.55em;
+      position: relative;
+      top: -0.45em;
+    }
+
+    .powered-text {
+      margin: 0 0 16px;
+      max-width: 520px;
+      font-size: 15px;
+      line-height: 1.7;
+      opacity: 0.9;
+    }
+
+    /* Override to keep Vets & Taxi images consistent */
+    .network-media,
+    .powered-media {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      min-height: 320px;
+      background: #020617;
+    }
+
+    @media (max-width: 720px) {
+      .network-inner {
+        max-width: 1120px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 32px;
+        align-items: flex-start;
+      }
+
+      .network-media,
+      .powered-media {
+        min-height: 260px;
+      }
+    }
+    /* Align Vets & Taxi columns and buttons */
+    .network-column {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .network-footer,
+    .powered-footer {
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .network-footer .btn-primary,
+    .powered-footer .btn-primary {
+      margin-top: auto;
+    }
+  </style>
+</head>
+<body>
+  <!-- SECTION 01 -->
+  <section class="hero-emergency">
+    <header class="hero-header">
+      <div class="hero-logo">
+        <span>artecx</span><sup>®</sup>
+      </div>
+    </header>
+
+    <div class="hero-main">
+      <div class="hero-cross"></div>
+      <h1 class="hero-title">Accident &amp; Emergency Response</h1>
+    </div>
+  </section>
+
+  <!-- SECTION 02 -->
+  <section class="section-instructions">
+    <div class="instructions-inner">
+      <div class="instructions-header">
+        <h2>Instructions</h2>
+        <p>Step-by-step guide</p>
+      </div>
+
+      <div class="instructions-carousel">
+        <!-- SLIDE 1: Step 1 & Step 2 -->
+        <div class="instructions-slide">
+          <div class="instructions-steps">
+            <!-- Step 1 -->
+            <div class="step-content step-content--1">
+              <h3>1. Identify accident location</h3>
+              <p>Use your live location on the app to pinpoint exactly where the accident has occurred before requesting emergency support.</p>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="step-content step-content--2">
+              <h3>2. Search the nearest emergency centre</h3>
+              <p>Search for the closest accident &amp; emergency centre so help can reach you as quickly as possible.</p>
+            </div>
+
+            <!-- Screen 1 -->
+            <div class="step-phone step-phone--1">
+              <div class="phone-frame">
+                <div class="phone-screen">
+                  <div class="location-pulse"></div>
+                  <div class="location-dot"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Screen 2 -->
+            <div class="step-phone step-phone--2">
+              <div class="phone-frame">
+                <div class="phone-screen phone-screen--search">
+                  <div class="search-header"></div>
+                  <div class="search-input"></div>
+                  <div class="search-list">
+                    <div class="search-item"></div>
+                    <div class="search-item"></div>
+                    <div class="search-item search-item--highlight"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 2: Step 2 & Step 3 -->
+        <div class="instructions-slide">
+          <div class="instructions-steps">
+            <!-- Step 2 again on left -->
+            <div class="step-content step-content--1">
+              <h3>2. Search the nearest emergency centre</h3>
+              <p>Search for the closest accident &amp; emergency centre so help can reach you as quickly as possible.</p>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="step-content step-content--2">
+              <h3>3. Request a Taxi Ambulance or Drive to the Hospital</h3>
+              <p>Call a taxi ambulance to transfer the pet, or drive directly to the Hospital.</p>
+            </div>
+
+            <!-- Screen 2 again on left -->
+            <div class="step-phone step-phone--1">
+              <div class="phone-frame">
+                <div class="phone-screen phone-screen--search">
+                  <div class="search-header"></div>
+                  <div class="search-input"></div>
+                  <div class="search-list">
+                    <div class="search-item"></div>
+                    <div class="search-item"></div>
+                    <div class="search-item search-item--highlight"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Screen 3 – map on right -->
+            <div class="step-phone step-phone--2">
+              <div class="phone-frame">
+                <div class="phone-screen phone-screen--map">
+                  <div class="map-road map-road--h"></div>
+                  <div class="map-road map-road--v"></div>
+                  <div class="map-block map-block--hospital"></div>
+                  <div class="map-marker"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slider dots -->
+      <div class="instructions-dots">
+        <button class="instructions-dot is-active" data-slide="0" aria-label="Steps 1 and 2"></button>
+        <button class="instructions-dot" data-slide="1" aria-label="Steps 2 and 3"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 03 & 04 – NETWORK & POWERED BY TAXI -->
+  <section class="section-network">
+    <div class="network-inner">
+      <!-- Left column: Vets & Hospitals -->
+      <div class="network-column">
+        <div class="network-media">
+          <img
+            src="https://source.unsplash.com/1600x900/?ambulance,hospital"
+            alt="Ambulance and emergency hospital at night"
+            class="network-photo"
+          />
+          <div class="network-overlay"></div>
+        </div>
+
+        <div class="network-footer">
+          <h2 class="network-title">Vets &amp; Hospitals</h2>
+          <p class="network-text">We reach all possible hospitals, emergency centres and vets. Even on-call vets!</p>
+          <button class="btn-primary" type="button">
+            Read more
+            <span>→</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Right column: Powered by Taxi -->
+      <div class="network-column">
+        <div class="powered-media">
+          <img
+            src="https://source.unsplash.com/1600x900/?ambulance,hospital"
+            alt="Ambulance and emergency hospital at night"
+            class="powered-photo"
+          />
+          <div class="powered-overlay"></div>
+        </div>
+
+        <div class="powered-footer">
+          <h2 class="powered-title">Powered by Taxi<sup>®</sup></h2>
+          <p class="powered-text">Dedicated and immediate. Island-wide to serve you.</p>
+          <button class="btn-primary" type="button">
+            Read more
+            <span>→</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      const carousel = document.querySelector('.instructions-carousel');
+      if (!carousel) return;
+
+      const slides = Array.from(carousel.querySelectorAll('.instructions-slide'));
+      const dots = Array.from(document.querySelectorAll('.instructions-dot'));
+
+      function goTo(index) {
+        if (!slides[index]) return;
+        const x = slides[index].offsetLeft;
+        carousel.scrollTo({ left: x, behavior: 'smooth' });
+        dots.forEach((dot, i) => dot.classList.toggle('is-active', i === index));
+      }
+
+      dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => goTo(index));
+      });
+
+      carousel.addEventListener('scroll', () => {
+        const scrollLeft = carousel.scrollLeft;
+        let current = 0;
+
+        slides.forEach((slide, index) => {
+          if (scrollLeft >= slide.offsetLeft - slide.offsetWidth / 2) {
+            current = index;
+          }
+        });
+
+        dots.forEach((dot, i) => dot.classList.toggle('is-active', i === current));
+      });
+    })();
+  </script>
+</body>
+</html>
