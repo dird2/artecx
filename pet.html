@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>artecx® – Travel Safe</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif; background-color: #000; color: #fff; }
+
+    .hero { position: relative; min-height: 100vh; width: 100%; background-color:#02040a; background-image: url("https://images.pexels.com/photos/5731861/pexels-photo-5731861.jpeg?auto=compress&cs=tinysrgb&w=1600"); background-size: cover; background-position: center; background-repeat: no-repeat; display: flex; flex-direction: column; animation: hero-pan 22s ease-in-out infinite alternate; overflow:hidden; }
+    .hero::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.12), rgba(255,255,255,0) 65%); animation: ripple 6s ease-in-out infinite; z-index:0; pointer-events:none; }
+    .hero-inner { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; padding: 32px 5vw; }
+    .hero-header { display: flex; align-items: center; justify-content: flex-start; }
+    .logo { font-size:32px; font-weight:800; display:flex; gap:2px; }
+    .logo .tm { font-size: 0.6em; vertical-align: super; margin-left: 2px; }
+    .hero-content { position: absolute; left: 50%; top: 60%; transform: translateX(-50%); text-align: center; padding: 0 5vw; }
+    .hero-content h1 { font-size: 48px; font-weight: 600; line-height: 1.2; text-transform: lowercase; letter-spacing: 0.04em; color:white; text-shadow:0 4px 12px rgba(0,0,0,0.5); white-space: nowrap; }
+
+    @keyframes hero-pan { 0% { background-position: center 0%; } 100% { background-position: center 100%; } }
+    @keyframes ripple { 0% { transform: scale(1); opacity:0.45; } 50% { transform: scale(1.08); opacity:0.65; } 100% { transform: scale(1); opacity:0.45; } }
+
+    @media (max-width: 600px) {
+      .hero { background-position: center bottom; }
+      .hero-content { top: 65%; }
+      .logo { font-size: 24px; }
+    }
+
+    /* OLD SECTION-FLOW (kept but not used now) */
+    .section-flow { background:#ffffff; color:#000000; padding:240px 8vw 80px; }
+    .flow-inner { max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px; align-items: stretch; }
+    .section-label { text-transform: uppercase; letter-spacing: 0.18em; font-size: 11px; font-weight: 500; opacity: 0.7; margin-bottom: 12px; }
+    .section-flow h2 { font-size: 32px; line-height: 1.3; margin-bottom: 16px; }
+    .flow-steps { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding: 0; margin: 0; }
+    .flow-steps li { background: #f4f4f4; border-radius: 20px; padding: 18px 18px 16px; box-shadow: 0 18px 45px rgba(0,0,0,0.4); display: flex; flex-direction: column; gap: 10px; }
+    .flow-steps li h3 { font-size: 16px; margin-bottom: 4px; }
+    .flow-steps li p { font-size: 14px; line-height: 1.6; opacity: 0.9; }
+    .graph-visual { margin-top: 4px; flex: 1; min-height: 150px; border-radius: 12px; overflow: hidden; background: #ddd; position: relative; background-size: cover; background-position: center; }
+    .graph-visual--location { background-image: url("https://api.mapbox.com/styles/v1/mapbox/light-v11/static/-0.1278,51.5074,14/600x300?access_token=YOUR_MAPBOX_TOKEN"); }
+    .graph-visual--perimeter { background-image: url("https://api.mapbox.com/styles/v1/mapbox/light-v11/static/-0.1278,51.5074,11/600x300?access_token=YOUR_MAPBOX_TOKEN"); }
+    .graph-visual--street { background-image: url("https://api.mapbox.com/styles/v1/mapbox/light-v11/static/-0.1337,51.50998,13/800x400?access_token=YOUR_MAPBOX_TOKEN"); }
+    .bus-icon { position: absolute; width: 26px; height: 26px; border-radius: 6px; background: url('https://cdn.jsdelivr.net/gh/tabler/tabler-icons/icons/bus.svg') center/70% no-repeat #ffffff; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 10px rgba(0,0,0,0.35); }
+
+    .bus-icon.bus-up { left: 52%; animation: bus-up 6s linear infinite; }
+    .bus-icon.bus-down { left: 48%; animation: bus-down 6s linear infinite; }
+    @keyframes bus-up { from { top: 100%; } to { top: -20%; } }
+    @keyframes bus-down { from { top: -20%; } to { top: 100%; } }
+    @keyframes user-pulse { 0% { transform: scale(1); box-shadow:0 0 6px rgba(0,255,163,0.6); } 70% { transform: scale(1.5); box-shadow:0 0 18px rgba(0,255,163,1); } 100% { transform: scale(1); box-shadow:0 0 6px rgba(0,255,163,0.4); } }
+    @keyframes stop-pulse { 0% { transform: scale(1); box-shadow:0 0 5px rgba(255,255,255,0.5); } 70% { transform: scale(1.35); box-shadow:0 0 14px rgba(255,255,255,1); } 100% { transform: scale(1); box-shadow:0 0 4px rgba(255,255,255,0.4); } }
+    @keyframes walk-dash { 0% { background-position-y: 0; } 100% { background-position-y: 12px; } }
+
+    .graph-visual--perimeter::before { content: ""; position: absolute; width: 140px; height: 140px; border-radius: 999px; border: 1px dashed rgba(255, 255, 255, 0.45); left: 50%; top: 50%; transform: translate(-50%, -50%); }
+    .graph-visual--perimeter::after { content: ""; position: absolute; width: 10px; height: 10px; border-radius: 999px; background: #ffffff; box-shadow: 0 0 10px rgba(255, 255, 255, 0.9); top: 22%; left: 62%; }
+    .graph-visual--street::before { content: ""; position: absolute; width: 4px; height: 130%; background: linear-gradient(to bottom, rgba(255,255,255,0.6), rgba(255,255,255,0)); left: 50%; top: -15%; transform: translateX(-50%); border-radius: 999px; }
+    .graph-visual--street::after { content: ""; position: absolute; width: 10px; height: 10px; border-radius: 4px; background: #ffffff; left: 50%; transform: translateX(-50%); top: 18%; box-shadow: 0 90px 0 #ffffff; }
+
+    .flow-copy { flex: 1.1; }
+    .flow-visual { flex: 1; display: flex; justify-content: center; }
+    .map-card { background: #0b101a; border-radius: 20px; padding: 18px 18px 16px; width: 100%; max-width: 380px; box-shadow: 0 18px 45px rgba(0,0,0,0.6); display: flex; flex-direction: column; gap: 12px; }
+    .map-header { font-size: 13px; opacity: 0.75; }
+    .map-body { position: relative; border-radius: 16px; background: radial-gradient(circle at 40% 30%, #1f4bff, #060814 70%); height: 260px; overflow: hidden; }
+    .map-circle { position: absolute; width: 180px; height: 180px; border-radius: 999px; border: 1px dashed rgba(255, 255, 255, 0.35); left: 50%; top: 50%; transform: translate(-50%, -50%); }
+    .map-user-dot { position: absolute; width: 14px; height: 14px; border-radius: 999px; background: #00ffa3; box-shadow: 0 0 18px rgba(0, 255, 163, 0.85); left: 50%; top: 50%; transform: translate(-50%, -50%); }
+    .map-street { position: absolute; width: 5px; height: 140%; background: linear-gradient(to bottom, rgba(255,255,255,0.3), rgba(255,255,255,0)); left: 62%; top: -20%; border-radius: 999px; }
+    .map-bus { position: absolute; width: 18px; height: 18px; border-radius: 8px; background: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #000; font-weight: 600; }
+    .map-bus::before { content: "🚌"; }
+    .map-bus.bus-up { left: 60%; top: 18%; }
+    .map-bus.bus-down { left: 64%; bottom: 18%; }
+    .map-footer { font-size: 12px; opacity: 0.8; line-height: 1.5; }
+
+    @media (max-width: 860px) {
+      .flow-inner { gap: 32px; }
+      .section-flow { padding: 56px 6vw; }
+      .flow-steps { grid-template-columns: 1fr; }
+    }
+
+    .user-dot { position:absolute; width:12px; height:12px; border-radius:999px; background:#00ffa3; box-shadow:0 0 12px rgba(0,255,163,0.9); top:55%; left:42%; z-index:auto; animation:user-pulse 1.6s ease-out infinite; }
+    .stop-dot { position:absolute; width:12px; height:12px; border-radius:999px; background:#ffffff; box-shadow:0 0 10px rgba(255,255,255,0.8); top:30%; left:70%; z-index:5; animation:stop-pulse 2s ease-out infinite; }
+    .walk-path { position:absolute; width:2px; height:180px; background: repeating-linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0) 6px, rgba(255,255,255,0.9) 6px, rgba(255,255,255,0.9) 12px); transform: rotate(28deg); top:38%; left:55%; opacity:0.9; z-index:4; animation:walk-dash 1s linear infinite; }
+
+    .section-network { background:#ffffff; color:#000000; padding:72px 8vw 96px; }
+    .network-inner { max-width:1120px; margin:0 auto; display:flex; flex-direction:column; gap:24px; }
+    .section-network h2 { font-size:32px; line-height:1.3; }
+    .section-network p { font-size:15px; max-width:520px; line-height:1.7; opacity:0.9; }
+    .network-layout { display:flex; flex-direction:column; gap:24px; }
+    .network-card { background:#f4f4f4; border-radius:20px; padding:18px; box-shadow:0 18px 45px rgba(0,0,0,0.4); }
+    .city-map { position:relative; width:100%; min-height:480px; border-radius:18px; overflow:hidden; background-image:url("https://api.mapbox.com/styles/v1/mapbox/light-v11/static/-0.1278,51.5074,11/1600x900?access_token=YOUR_MAPBOX_TOKEN"); background-size:cover; background-position:center; }
+    .city-map::before { content:""; position:absolute; inset:0; background:radial-gradient(circle at 20% 10%, rgba(0,0,0,0.35), transparent 55%), linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)); }
+    .network-bus { position:absolute; width:20px; height:20px; border-radius:6px; background:url('https://cdn.jsdelivr.net/gh/tabler/tabler-icons/icons/bus.svg') center/70% no-repeat #ffffff; box-shadow:0 0 10px rgba(0,0,0,0.45); opacity:0.92; }
+    .network-bus.bus-a { top:12%; left:18%; animation:net-bus-h 16s linear infinite; }
+    .network-bus.bus-b { top:18%; left:72%; animation:net-bus-h 19s linear reverse infinite; }
+    .network-bus.bus-c { top:42%; left:10%; animation:net-bus-h 17s linear infinite; }
+    .network-bus.bus-d { top:48%; left:80%; animation:net-bus-h 18s linear reverse infinite; }
+    .network-bus.bus-e { top:70%; left:22%; animation:net-bus-h 20s linear infinite; }
+    .network-bus.bus-f { top:76%; left:78%; animation:net-bus-h 22s linear reverse infinite; }
+    .network-bus.bus-g { top:28%; left:35%; animation:net-bus-v 18s linear infinite; }
+    .network-bus.bus-h { top:65%; left:40%; animation:net-bus-v 21s linear reverse infinite; }
+    .network-bus.bus-i { top:18%; left:50%; animation:net-bus-v 19s linear infinite; }
+    .network-bus.bus-j { top:60%; left:55%; animation:net-bus-v 23s linear reverse infinite; }
+    .network-bus.bus-k { top:32%; left:64%; animation:net-bus-diag 24s linear infinite; }
+    .network-bus.bus-l { top:68%; left:30%; animation:net-bus-diag 26s linear reverse infinite; }
+    @keyframes net-bus-h { from { transform:translateX(-40%); } to { transform:translateX(40%); } }
+    @keyframes net-bus-v { from { transform:translateY(-40%); } to { transform:translateY(40%); } }
+    @keyframes net-bus-diag { from { transform:translate(-35%,35%); } to { transform:translate(35%,-35%); } }
+
+    @media (max-width:860px){ .section-network { padding:56px 6vw 80px; } }
+
+    /* Footer Section */
+    .section-six {
+      padding: 72px 8vw 60px;
+      background: #111;
+      color: #f5f5f5;
+      font-family: inherit;
+    }
+
+    .footer-container { max-width: 1120px; margin: 0 auto; }
+    .footer-top { display: flex; flex-wrap: wrap; gap: 32px; margin-bottom: 32px; align-items: flex-start; }
+    .footer-brand { flex: 1; min-width: 220px; }
+    .footer-brand-title { font-size: 22px; font-weight: 700; margin-bottom: 12px; }
+    .footer-brand p { font-size: 14px; line-height: 1.6; color: #ccc; }
+    .footer-col { flex: 1; min-width: 160px; font-size: 14px; }
+    .footer-col-title { font-weight: 600; margin-bottom: 10px; }
+    .footer-col a { display: block; color: #f5f5f5; text-decoration: none; margin-bottom: 6px; }
+    .footer-newsletter { flex: 1; min-width: 220px; font-size: 14px; }
+    .footer-newsletter p { color: #ccc; margin-bottom: 10px; }
+    .newsletter-input { display: flex; gap: 8px; flex-wrap: wrap; }
+    .newsletter-input input { flex: 1; min-width: 140px; padding: 10px 12px; border-radius: 4px; border: 1px solid #333; background: #1a1a1a; color: #f5f5f5; font-size: 14px; }
+    .newsletter-input button { padding: 10px 18px; border-radius: 4px; border: none; background: #f5f5f5; color: #111; font-weight: 600; cursor: pointer; font-size: 14px; }
+    .footer-divider { height: 1px; background:#333; margin-bottom: 8px; }
+    .footer-bottom { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: center; font-size: 12px; color: #aaa; }
+    .footer-links a { color: #aaa; text-decoration: none; margin-right: 12px; }
+    .footer-social { display: flex; gap: 12px; font-size: 16px; }
+
+    @media (max-width: 860px) {
+      .footer-top { flex-direction: column; align-items: flex-start; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+    }
+
+    .c1{color:#ff4e50;} .c2{color:#f9d423;} .c3{color:#24c6dc;} .c4{color:#3be8b0;} .c5{color:#a660ff;} .c6{color:#ff84c8;}
+
+    .section-attention { background:#ffffff; color:#000000; padding:96px 8vw 80px; }
+    .attention-inner { max-width:1120px; margin:0 auto; display:flex; flex-direction:column; gap:32px; }
+    .attention-inner p { font-size:15px; max-width:560px; line-height:1.7; opacity:0.85; }
+    .attention-title { font-size:32px; font-weight:600; }
+    .attention-slider { width:100%; overflow:hidden; }
+    .attention-track { display:flex; transition:transform 700ms cubic-bezier(0.22, 0.61, 0.36, 1); }
+    .attention-slide { flex:0 0 100%; display:flex; justify-content:center; opacity:0; transform:scale(0.96); transition:opacity 700ms ease, transform 700ms cubic-bezier(0.22, 0.61, 0.36, 1); }
+    .attention-slide.is-active { opacity:1; transform:scale(1); }
+
+    .attention-card { position:relative; border-radius:36px; overflow:hidden;  background:transparent; display:flex; flex-direction:column; width:500px; max-width:100%; height:580px; }
+    .attention-photo { position:absolute; inset:0; background-size:cover; background-position:center; transform:scale(1.04); transition:transform 900ms cubic-bezier(0.22, 0.61, 0.36, 1); }
+    .attention-slide.is-active .attention-photo { transform:scale(1.08); }
+
+    .attention-card.card-1 .attention-photo { background-image:url('https://images.pexels.com/photos/5731861/pexels-photo-5731861.jpeg?auto=compress&cs=tinysrgb&w=1200'); }
+    .attention-card.card-2 .attention-photo { background-image:url('https://images.pexels.com/photos/7474373/pexels-photo-7474373.jpeg?auto=compress&cs=tinysrgb&w=1200'); }
+    .attention-card.card-3 .attention-photo { background-image:url('https://images.pexels.com/photos/4588018/pexels-photo-4588018.jpeg?auto=compress&cs=tinysrgb&w=1200'); }
+    .attention-card.card-4 .attention-photo { background-image:url('https://images.pexels.com/photos/7469228/pexels-photo-7469228.jpeg?auto=compress&cs=tinysrgb&w=1200'); }
+    .attention-card.card-5 .attention-photo { background-image:url('https://images.pexels.com/photos/5731903/pexels-photo-5731903.jpeg?auto=compress&cs=tinysrgb&w=1200'); }
+
+    .attention-gradient { position:absolute; inset:auto 0 0 0; height:40%; background:linear-gradient(to top, rgba(0,0,0,0.7), transparent); pointer-events:none; }
+    .attention-meta-wrap { position:absolute; bottom:0; left:0; right:0; padding:18px 0 22px; }
+    .attention-meta { position:relative; margin:0 18px; background:#ffffff; border-radius:22px; padding:14px 18px; display:flex; flex-direction:column; gap:4px; box-shadow:0 10px 24px rgba(0,0,0,0.18); text-align:left; }
+    .attention-meta h3 { font-size:18px; font-weight:600; margin:0; color:#000; }
+    .attention-meta p { font-size:14px; line-height:1.5; margin:0; opacity:0.9; color:#333; }
+    .attention-dots { display:flex; justify-content:center; gap:8px; margin-top:8px; }
+    .attention-dot { width:7px; height:7px; border-radius:999px; background:#d0d0d0; }
+    .attention-dot.is-active { background:#000; }
+
+    .section-emergency { background:#ffffff; color:#000000; padding:80px 8vw 80px; }
+    .emergency-inner { max-width:1120px; margin:0 auto; display:flex; flex-direction:column; gap:24px; }
+    .emergency-inner p { font-size:15px; max-width:560px; line-height:1.7; opacity:0.9; }
+    .emergency-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; }
+    .emergency-card { background:#f4f4f4; border-radius:20px; padding:18px 18px 22px; box-shadow:0 14px 36px rgba(0,0,0,0.06); }
+    .emergency-card h3 { font-size:16px; font-weight:600; margin-bottom:6px; }
+    .emergency-card p { font-size:14px; line-height:1.6; opacity:0.9; }
+
+    @media (max-width:860px){
+      .section-attention { padding:72px 6vw 72px; }
+      .section-emergency { padding:72px 6vw 72px; }
+      .emergency-grid { grid-template-columns:1fr; }
+    }
+
+  </style>
+</head>
+<body>
+  <section class="hero">
+    <div class="hero-inner">
+      <header class="hero-header">
+        <div class="logo"><span class="c1">a</span><span class="c2">r</span><span class="c3">t</span><span class="c4">e</span><span class="c5">c</span><span class="c6">x</span><sup class="tm" style="color:#444;">®</sup></div>
+      </header>
+      <div class="hero-content" style="text-align:center;">
+        <h1>my pet, my love</h1>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-attention">
+    <div class="attention-inner">
+      <div>
+        <h2 class="attention-title">Our full attention is yours...</h2>
+        <p style="font-size:15px; max-width:560px; line-height:1.7; opacity:0.85;">Everything your pet needs, in one place — from care and comfort to finding help when it matters most.</p>
+        
+      </div>
+      <div class="attention-slider">
+        <div class="attention-track">
+          <div class="attention-slide">
+            <article class="attention-card card-1">
+              <div class="attention-photo"></div>
+              <div class="attention-gradient"></div>
+              <div class="attention-meta-wrap">
+                <div class="attention-meta">
+                  <h3>Call a Vet</h3>
+                  <p>Instant access to trusted vets whenever your pet needs help. Quick, calm guidance right away.</p>
+                </div>
+              </div>
+            </article>
+          </div>
+          <div class="attention-slide">
+            <article class="attention-card card-2">
+              <div class="attention-photo"></div>
+              <div class="attention-gradient"></div>
+              <div class="attention-meta-wrap">
+                <div class="attention-meta">
+                  <h3>Get Medicines</h3>
+                  <p>Find nearby pharmacies with the right pet medications—fast, reliable, and location‑based.</p>
+                </div>
+              </div>
+            </article>
+          </div>
+          <div class="attention-slide">
+            <article class="attention-card card-3">
+              <div class="attention-photo"></div>
+              <div class="attention-gradient"></div>
+              <div class="attention-meta-wrap">
+                <div class="attention-meta">
+                  <h3>Pet Grooming</h3>
+                  <p>Treat your pet to premium grooming—comfort, hygiene, and a little luxury in one place.</p>
+                </div>
+              </div>
+            </article>
+          </div>
+          <div class="attention-slide">
+            <article class="attention-card card-4">
+              <div class="attention-photo"></div>
+              <div class="attention-gradient"></div>
+              <div class="attention-meta-wrap">
+                <div class="attention-meta">
+                  <h3>Find Your Pet</h3>
+                  <p>Locate your missing pet with real‑time guidance and community alerts that bring them home.</p>
+                </div>
+              </div>
+            </article>
+          </div>
+          <div class="attention-slide">
+            <article class="attention-card card-5">
+              <div class="attention-photo"></div>
+              <div class="attention-gradient"></div>
+              <div class="attention-meta-wrap">
+                <div class="attention-meta">
+                  <h3>Pet Insurance</h3>
+                  <p>Protect your pet with coverage that actually matters—simple, flexible insurance for every life stage.</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+        <div class="attention-dots">
+          <span class="attention-dot is-active"></span>
+          <span class="attention-dot"></span>
+          <span class="attention-dot"></span>
+          <span class="attention-dot"></span>
+          <span class="attention-dot"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    (function(){
+      const track = document.querySelector('.attention-track');
+      const slides = document.querySelectorAll('.attention-slide');
+      const dots = document.querySelectorAll('.attention-dot');
+      if (!track || !slides.length) return;
+
+      let index = 0;
+
+      function goTo(i){
+        index = (i + slides.length) % slides.length;
+        track.style.transform = `translateX(-${index * 100}%)`;
+        slides.forEach((slide, idx) => {
+          slide.classList.toggle('is-active', idx === index);
+        });
+        if(dots.length){
+          dots.forEach((d,idx)=>d.classList.toggle('is-active', idx===index));
+        }
+      }
+
+      // init
+      goTo(0);
+
+      // auto advance
+      setInterval(()=>{ goTo(index + 1); }, 5000);
+    })();
+  </script>
+
+      <section class="section-stories" style="background:#ffffff;color:#000;padding:120px 8vw 120px;text-align:left;">
+    <div style="max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:32px;">
+      <div>
+        <h2 style="font-size:32px;font-weight:600; color:#ff0000;color:#ff0000;">Emergency Care</h2>
+        <p style="font-size:16px;line-height:1.7;max-width:620px;opacity:0.9;margin-top:8px;color:#ff0000;">Island-wide Accident & Emergency Response</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;">
+        <article style="background:#f4f4f4;border-radius:20px;padding:16px 16px 20px;box-shadow:0 18px 45px rgba(0,0,0,0.06);display:flex;flex-direction:column;gap:12px;">
+          <div style="border-radius:14px;overflow:hidden;background:#ddd;height:160px;background-image:url('https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=1200');background-size:cover;background-position:center;"></div>
+          <h3 style="font-size:16px;font-weight:600;color:#ff0000;">Locate the nearest Hospital</h3>
+          <p style="font-size:14px;line-height:1.6;opacity:0.9;">Find the nearest vet practice or pet hospital open immediately.</p>
+        </article>
+        <article style="background:#f4f4f4;border-radius:20px;padding:16px 16px 20px;box-shadow:0 18px 45px rgba(0,0,0,0.06);display:flex;flex-direction:column;gap:12px;">
+          <div style="border-radius:14px;overflow:hidden;background:#ddd;height:160px;background-image:url('https://images.pexels.com/photos/327040/pexels-photo-327040.jpeg?auto=compress&cs=tinysrgb&w=1200');background-size:cover;background-position:center;"></div>
+          <h3 style="font-size:16px;font-weight:600;color:#ff0000;">Taxi Ambulance</h3>
+          <p style="font-size:14px;line-height:1.6;opacity:0.9;">Urgent taxi response immediately to you. Powered by PickMe®</p>
+        </article>
+        <article style="background:#f4f4f4;border-radius:20px;padding:16px 16px 20px;box-shadow:0 18px 45px rgba(0,0,0,0.06);display:flex;flex-direction:column;gap:12px;">
+          <div style="border-radius:14px;overflow:hidden;background:#ddd;height:160px;background-image:url('https://images.pexels.com/photos/227417/pexels-photo-227417.jpeg?auto=compress&cs=tinysrgb&w=1200');background-size:cover;background-position:center;"></div>
+          <h3 style="font-size:16px;font-weight:600;color:#ff0000;">Hospital ready for emergency</h3>
+          <p style="font-size:14px;line-height:1.6;opacity:0.9;">The hospital is notified and ready for your arrival and immediate treatment.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+   
+      
+    </div>
+  </section>
+
+  <section class="section-passion" style="background:#ffffff;color:#000;padding:96px 8vw;text-align:left;">
+    <div style="max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:20px;">
+      <h2 style="font-size:32px;font-weight:600;">Inspired &amp; driven to care</h2>
+      <p style="font-size:16px;line-height:1.7;max-width:620px;opacity:0.9;">
+        Care is more than medicine and data — it's the drive to notice, protect, and improve the lives of the pets and people we serve.
+      </p>
+      <button style="margin-top:12px; align-self:flex-start; background:#000; color:#fff; padding:14px 26px; border-radius:40px; font-size:15px; font-weight:500; border:none; cursor:pointer; display:flex; align-items:center; gap:10px;">
+        Read more <span style="font-size:18px; line-height:0;">→</span>
+      </button>
+    </div>
+  </section>
+
+  <section class="section-stories" style="background:#ffffff;color:#000;padding:120px 8vw 120px;text-align:left;">
+    <div style="max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:32px;">
+      <div>
+        <h2 style="font-size:32px;font-weight:600;">Our Community</h2>
+        <p style="font-size:16px;line-height:1.7;max-width:620px;opacity:0.9;margin-top:8px;">Real journeys, real people, and the small wins that happen when travel simply works.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;">
+        <article style="background:#f4f4f4;border-radius:20px;padding:16px 16px 20px;box-shadow:0 18px 45px rgba(0,0,0,0.06);display:flex;flex-direction:column;gap:12px;">
+          <div style="border-radius:14px;overflow:hidden;background:#ddd;height:160px;background-image:url('https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=1200');background-size:cover;background-position:center;"></div>
+          <h3 style="font-size:16px;font-weight:600;">Catching the last bus home</h3>
+          <p style="font-size:14px;line-height:1.6;opacity:0.9;">How artecx helped a nurse finish a late shift and still get home on time, without guessing routes.</p>
+        </article>
+        <article style="background:#f4f4f4;border-radius:20px;padding:16px 16px 20px;box-shadow:0 18px 45px rgba(0,0,0,0.06);display:flex;flex-direction:column;gap:12px;">
+          <div style="border-radius:14px;overflow:hidden;background:#ddd;height:160px;background-image:url('https://images.pexels.com/photos/327040/pexels-photo-327040.jpeg?auto=compress&cs=tinysrgb&w=1200');background-size:cover;background-position:center;"></div>
+          <h3 style="font-size:16px;font-weight:600;">Travel to work</h3>
+          <p style="font-size:14px;line-height:1.6;opacity:0.9;">From campus to city, knowing exactly when the next bus arrives keeps every minute of the day usable.</p>
+        </article>
+        <article style="background:#f4f4f4;border-radius:20px;padding:16px 16px 20px;box-shadow:0 18px 45px rgba(0,0,0,0.06);display:flex;flex-direction:column;gap:12px;">
+          <div style="border-radius:14px;overflow:hidden;background:#ddd;height:160px;background-image:url('https://images.pexels.com/photos/227417/pexels-photo-227417.jpeg?auto=compress&cs=tinysrgb&w=1200');background-size:cover;background-position:center;"></div>
+          <h3 style="font-size:16px;font-weight:600;">Weekend in the city</h3>
+          <p style="font-size:14px;line-height:1.6;opacity:0.9;">Exploring a new city becomes easier when you see the whole network at a glance, right in your hand.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+
+
+
+  
+</body>
+</html>
