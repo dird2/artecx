@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Emergency Ambulance & Hospital Transfers</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --primary: #c8102e;     /* Emergency red */
+      --primary-dark: #990820;
+      --accent: #007f8c;
+      --bg: #050608;
+      --card-bg: #11141a;
+      --text-main: #f5f5f5;
+      --muted: #a7b0c2;
+      --border-subtle: #262a33;
+      --shadow-soft: 0 20px 40px rgba(0,0,0,0.5);
+      --radius-lg: 18px;
+      --radius-xl: 26px;
+      --radius-pill: 999px;
+      --max-width: 1120px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #15192b 0, #050608 55%);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      min-height: 100vh;
+      color: var(--text-main);
+    }
+
+    .top-alert {
+      background: #0b1b24;
+      border-bottom: 1px solid #182733;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .top-alert-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 8px 20px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .top-alert strong {
+      color: #ffdddd;
+    }
+
+    .top-alert span.label {
+      border-radius: var(--radius-pill);
+      border: 1px solid #30465c;
+      padding: 4px 10px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #b6c4d9;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(16px);
+      background: linear-gradient(to bottom, rgba(5,6,8,0.96), rgba(5,6,8,0.85), transparent);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .nav {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 14px 20px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: radial-gradient(circle at 20% 0%, #ff6f6f, #c8102e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 18px;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-name {
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .brand-tagline {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-phone {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .nav-phone strong {
+      color: #fff;
+    }
+
+    .btn {
+      border-radius: var(--radius-pill);
+      padding: 9px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid transparent;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border-color: rgba(255,255,255,0.06);
+      box-shadow: 0 12px 25px rgba(200,16,46,0.45);
+    }
+
+    .btn-ghost {
+      background: rgba(18,23,35,0.9);
+      border-color: #273146;
+      color: var(--muted);
+    }
+
+    .btn span.icon {
+      font-size: 16px;
+    }
+
+    main {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 18px 20px 64px;
+    }
+
+    /* HERO */
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: 28px;
+      margin-top: 14px;
+    }
+
+    .hero-left {
+      padding: 22px 22px 26px;
+      border-radius: var(--radius-xl);
+      background: radial-gradient(circle at top right, rgba(200,16,46,0.25), rgba(11,14,20,0.98));
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-left::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(255,255,255,0.12), transparent 55%);
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    .hero-pill-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      font-size: 11px;
+      padding: 5px 11px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(5,8,13,0.7);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #cfd7ea;
+    }
+
+    .pill span.dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #42f590;
+      box-shadow: 0 0 12px rgba(66,245,144,0.7);
+    }
+
+    .hero h1 {
+      font-size: clamp(28px, 3vw, 32px);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+    }
+
+    .hero h1 span.highlight {
+      color: #ff9d9d;
+    }
+
+    .hero-sub {
+      font-size: 14px;
+      color: var(--muted);
+      max-width: 32rem;
+      margin-bottom: 18px;
+    }
+
+    .hero-warning {
+      font-size: 12px;
+      background: rgba(0,0,0,0.65);
+      border-radius: var(--radius-lg);
+      padding: 9px 11px;
+      border: 1px solid rgba(255,255,255,0.12);
+      margin-bottom: 18px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      color: #ffd5d5;
+    }
+
+    .hero-warning span.icon {
+      margin-top: 1px;
+      font-size: 16px;
+    }
+
+    .hero-warning strong {
+      color: #fff;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .hero-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .hero-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-meta-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #3ddcff;
+    }
+
+    .hero-right {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .hero-card {
+      border-radius: var(--radius-xl);
+      background: linear-gradient(145deg, #050608, #10151f);
+      border: 1px solid var(--border-subtle);
+      padding: 16px 16px 14px;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.6);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      gap: 12px;
+    }
+
+    .hero-card-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+    }
+
+    .hero-status-pill {
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      padding: 3px 9px;
+      border: 1px solid #2b4836;
+      background: rgba(9,44,20,0.85);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #9bffc8;
+    }
+
+    .hero-status-pill span.dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #42f590;
+      box-shadow: 0 0 10px rgba(66,245,144,0.8);
+    }
+
+    .hero-callout {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+    }
+
+    .hero-callout small {
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      color: var(--muted);
+      margin-left: 2px;
+      margin-bottom: 3px;
+    }
+
+    .hero-card-sub {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .hero-badge {
+      font-size: 11px;
+      padding: 7px 8px;
+      border-radius: 12px;
+      border: 1px solid #273146;
+      background: radial-gradient(circle at top left, rgba(255,255,255,0.06), rgba(11,16,26,0.95));
+      color: #cfd7ea;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .hero-badge strong {
+      font-size: 12px;
+      color: #fff;
+    }
+
+    .hero-badge span.label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #7f8ba3;
+    }
+
+    .hero-photo {
+      border-radius: var(--radius-xl);
+      background: radial-gradient(circle at top left, #ff7f7f, #600816);
+      position: relative;
+      overflow: hidden;
+      padding: 10px;
+      border: 1px solid rgba(255,255,255,0.09);
+      min-height: 120px;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .hero-photo::before {
+      /* Replace this gradient with an actual ambulance image via background-image if you have one */
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to top, rgba(0,0,0,0.75), transparent 45%),
+        radial-gradient(circle at 70% 0%, rgba(255,255,255,0.45), transparent 60%);
+      mix-blend-mode: multiply;
+      pointer-events: none;
+    }
+
+    .hero-photo-inner {
+      position: relative;
+      z-index: 1;
+      font-size: 11px;
+      color: #ffdadd;
+    }
+
+    .hero-photo-inner strong {
+      display: block;
+      font-size: 13px;
+      color: #fff;
+      margin-bottom: 2px;
+    }
+
+    /* SECTION WRAPPER */
+
+    .section {
+      margin-top: 40px;
+    }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 16px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .section-kicker {
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .section-description {
+      font-size: 13px;
+      color: var(--muted);
+      max-width: 420px;
+    }
+
+    /* SECTION: SERVICE CARDS */
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .service-card {
+      border-radius: var(--radius-lg);
+      background: radial-gradient(circle at top left, rgba(255,255,255,0.08), #070a11);
+      border: 1px solid var(--border-subtle);
+      padding: 14px 14px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(255,255,255,0.12), transparent 60%);
+      mix-blend-mode: soft-light;
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    .service-tag {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: #8fa3c9;
+    }
+
+    .service-title {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .service-text {
+      font-size: 12px;
+      color: var(--muted);
+      min-height: 48px;
+    }
+
+    .service-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #9cadce;
+      margin-top: 4px;
+    }
+
+    .service-meta span.dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #42f590;
+      box-shadow: 0 0 12px rgba(66,245,144,0.7);
+      margin-right: 4px;
+    }
+
+    /* SECTION: HOW IT WORKS */
+
+    .timeline {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .steps {
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      background: #070a11;
+      padding: 14px 14px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 26px minmax(0, 1fr);
+      gap: 10px;
+      padding: 8px 6px;
+      border-radius: 12px;
+    }
+
+    .step:nth-child(1),
+    .step:nth-child(2) {
+      background: radial-gradient(circle at left, rgba(255,255,255,0.04), transparent);
+    }
+
+    .step-number {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      border: 1px solid #273146;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: #dfe7ff;
+    }
+
+    .step-title {
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .step-text {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .timeline-key {
+      font-size: 12px;
+      color: var(--muted);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      background: #05070c;
+      padding: 12px 12px 10px;
+    }
+
+    .timeline-key-row {
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .timeline-label {
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .timeline-label span.colour {
+      width: 12px;
+      height: 4px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #c8102e, #ff7f7f);
+    }
+
+    /* SECTION: SAFETY & CLINICAL */
+
+    .safety-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 18px;
+    }
+
+    .safety-card {
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      background: #070a11;
+      padding: 14px 14px 10px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .safety-card h3 {
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .safety-list {
+      list-style: none;
+      display: grid;
+      gap: 4px;
+      margin-top: 6px;
+    }
+
+    .safety-list li::before {
+      content: "•";
+      color: #6ce0ff;
+      margin-right: 6px;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .tag-chip {
+      font-size: 11px;
+      padding: 4px 9px;
+      border-radius: var(--radius-pill);
+      border: 1px solid #273146;
+      color: #afbbd5;
+      background: #05070c;
+    }
+
+    /* SECTION: STORIES & FAQ */
+
+    .stories-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 18px;
+    }
+
+    .story-card {
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      background: #070a11;
+      padding: 14px 14px 10px;
+      font-size: 12px;
+      color: var(--muted);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .story-card h3 {
+      font-size: 14px;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+
+    .quote-mark {
+      font-size: 60px;
+      line-height: 0.7;
+      color: rgba(255,255,255,0.04);
+      position: absolute;
+      right: 12px;
+      bottom: -10px;
+    }
+
+    .story-meta {
+      margin-top: 8px;
+      font-size: 11px;
+      color: #8a9ac2;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .faq-list {
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      background: #070a11;
+      padding: 14px 14px 10px;
+      font-size: 12px;
+      color: var(--muted);
+      display: grid;
+      gap: 10px;
+    }
+
+    .faq-item h3 {
+      font-size: 13px;
+      margin-bottom: 4px;
+      color: #fff;
+    }
+
+    /* FOOTER / CONTACT BAR */
+
+    .contact-bar {
+      position: sticky;
+      bottom: 0;
+      z-index: 30;
+      margin-top: 32px;
+    }
+
+    .contact-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 10px 20px 16px;
+      backdrop-filter: blur(12px);
+      background: linear-gradient(to top, rgba(5,6,8,0.96), rgba(5,6,8,0.9), transparent);
+      border-top: 1px solid rgba(255,255,255,0.04);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .contact-info {
+      font-size: 12px;
+      color: var(--muted);
+      max-width: 420px;
+    }
+
+    .contact-info strong {
+      color: #fff;
+    }
+
+    .contact-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 880px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .hero-right {
+        order: -1;
+      }
+      .service-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .timeline,
+      .safety-grid,
+      .stories-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav {
+        padding-inline: 14px;
+      }
+      main {
+        padding-inline: 14px;
+      }
+      .service-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .hero-left,
+      .hero-card,
+      .hero-photo {
+        border-radius: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- TOP EMERGENCY BANNER -->
+  <div class="top-alert">
+    <div class="top-alert-inner">
+      <div>
+        <span class="label">Emergency Guidance</span>
+      </div>
+      <div>
+        For life-threatening emergencies, <strong>call 999 immediately</strong>.  
+        Our service is for urgent & planned hospital transfers.
+      </div>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="nav">
+      <div class="brand">
+        <div class="brand-mark">A</div>
+        <div class="brand-text">
+          <div class="brand-name">RapidCare</div>
+          <div class="brand-tagline">Ambulance & Hospital Transfers</div>
+        </div>
+      </div>
+      <div class="nav-actions">
+        <div class="nav-phone">
+          24/7 Control Centre: <strong><a href="tel:+441234567890">+44 1234 567 890</a></strong>
+        </div>
+        <button class="btn btn-ghost">
+          <span class="icon">⏱</span> Track Booking
+        </button>
+        <a href="tel:+441234567890" class="btn btn-primary">
+          <span class="icon">📞</span> Request Transfer
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-left">
+        <div class="hero-pill-row">
+          <div class="pill"><span class="dot"></span> 24/7 Ambulance Dispatch</div>
+          <div class="pill">NHS & Private Hospital Transfers</div>
+        </div>
+        <h1>
+          Emergency ambulance & hospital transfers,  
+          <span class="highlight">when every minute matters.</span>
+        </h1>
+        <p class="hero-sub">
+          Clinically-led ambulance transfers for urgent, time-critical and planned moves between
+          homes, clinics and hospitals. One call connects you to our control centre, paramedics
+          and fleet.
+        </p>
+
+        <div class="hero-warning">
+          <span class="icon">⚠️</span>
+          <div>
+            <strong>Is someone not breathing, unconscious, or in immediate danger?</strong><br/>
+            <span>Stop reading and call <strong>999</strong> now.</span>
+          </div>
+        </div>
+
+        <div class="hero-actions">
+          <a href="tel:+441234567890" class="btn btn-primary">
+            <span class="icon">🚑</span> Call dispatch centre
+          </a>
+          <a href="#book" class="btn btn-ghost">
+            <span class="icon">📝</span> Book non-emergency transfer
+          </a>
+        </div>
+
+        <div class="hero-meta-row">
+          <div class="hero-meta-item">
+            <span class="hero-meta-dot"></span> Average handover confirmation in <strong>&lt; 5 minutes</strong>
+          </div>
+          <div class="hero-meta-item">
+            <span class="hero-meta-dot"></span> ALS & BLS crews, stretcher & wheelchair support
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="hero-card">
+          <div class="hero-card-header">
+            <div class="hero-card-title">Next available ambulance</div>
+            <div class="hero-status-pill">
+              <span class="dot"></span> Crews online
+            </div>
+          </div>
+          <div class="hero-callout">
+            08–12 minutes
+            <small>Typical dispatch window</small>
+          </div>
+          <p class="hero-card-sub">
+            Live monitored from our 24/7 control room. Times vary by location and demand.
+          </p>
+          <div class="hero-grid">
+            <div class="hero-badge">
+              <span class="label">Clinical level</span>
+              <strong>Paramedic-led</strong>
+              <span>Advanced life support equipment onboard.</span>
+            </div>
+            <div class="hero-badge">
+              <span class="label">Coverage</span>
+              <strong>Regional</strong>
+              <span>Urban & rural pick-ups within our service area.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-photo">
+          <div class="hero-photo-inner">
+            <strong>Blue-light ready, hospital-grade care.</strong>
+            High-visibility liveried vehicles, monitored GPS routes and direct liaison with
+            receiving hospitals for smoother handovers.
+            <!-- Replace gradient with your ambulance photo via CSS background image if desired -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="section" id="services">
+      <div class="section-heading">
+        <div>
+          <div class="section-kicker">What we do</div>
+          <h2 class="section-title">Emergency & planned transfers, built around clinical need.</h2>
+        </div>
+        <p class="section-description">
+          From urgent admissions to time-sensitive clinics, our dispatchers match every case to
+          the right crew, vehicle and equipment.
+        </p>
+      </div>
+
+      <div class="service-grid">
+        <article class="service-card">
+          <div class="service-tag">Category: Emergency</div>
+          <h3 class="service-title">Urgent ambulance response</h3>
+          <p class="service-text">
+            For serious, time-critical conditions where 999 has advised alternative services, or
+            clinicians have requested private ambulance response and hospital transfer.
+          </p>
+          <div class="service-meta">
+            <span><span class="dot"></span>Blue-light capable</span>
+            <span>ALS / Paramedic crews</span>
+          </div>
+        </article>
+
+        <article class="service-card">
+          <div class="service-tag">Category: Hospital</div>
+          <h3 class="service-title">Inter-hospital transfers (IHT)</h3>
+          <p class="service-text">
+            Clinically-led transfers between hospitals for specialist treatment, imaging, surgery
+            or step-down care, with handover reports to the receiving team.
+          </p>
+          <div class="service-meta">
+            <span><span class="dot"></span>Monitored ETA</span>
+            <span>Adult & paediatric</span>
+          </div>
+        </article>
+
+        <article class="service-card">
+          <div class="service-tag">Category: Planned</div>
+          <h3 class="service-title">Non-emergency patient transport</h3>
+          <p class="service-text">
+            Pre-booked journeys for mobility-impaired or medically-complex patients who cannot
+            travel by car or taxi but do not require blue-light transfer.
+          </p>
+          <div class="service-meta">
+            <span><span class="dot"></span>Wheelchair & stretcher</span>
+            <span>Escort welcome</span>
+          </div>
+        </article>
+
+        <article class="service-card">
+          <div class="service-tag">Category: Specialist</div>
+          <h3 class="service-title">High-dependency & ICU transfers</h3>
+          <p class="service-text">
+            Specialist teams for ventilated or high-dependency patients, with advanced monitoring
+            and liaison with ICU teams at both ends of the journey.
+          </p>
+          <div class="service-meta">
+            <span><span class="dot"></span>Critical care kit</span>
+            <span>Consultant-approved</span>
+          </div>
+        </article>
+
+        <article class="service-card">
+          <div class="service-tag">Category: Maternity</div>
+          <h3 class="service-title">Maternity & neonatal transfers</h3>
+          <p class="service-text">
+            Transfers for expectant mothers and newborns, ensuring the right hospital setting with
+            appropriate maternity or neonatal care teams on standby.
+          </p>
+          <div class="service-meta">
+            <span><span class="dot"></span>Partner can travel</span>
+            <span>Soft-ride vehicles</span>
+          </div>
+        </article>
+
+        <article class="service-card">
+          <div class="service-tag">Category: Mental health</div>
+          <h3 class="service-title">Mental health & secure moves</h3>
+          <p class="service-text">
+            Compassionate, de-escalating transport for mental health patients, with staff trained
+            in safe transfer and dignity-preserving communication.
+          </p>
+          <div class="service-meta">
+            <span><span class="dot"></span>Trauma-informed</span>
+            <span>Secure options</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="section" id="process">
+      <div class="section-heading">
+        <div>
+          <div class="section-kicker">How it works</div>
+          <h2 class="section-title">One call connects you to the right crew and hospital.</h2>
+        </div>
+        <p class="section-description">
+          Our control team triages every request, confirms clinical details with you or your
+          clinician, then dispatches the closest appropriate vehicle.
+        </p>
+      </div>
+
+      <div class="timeline">
+        <div class="steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <div>
+              <div class="step-title">Call our 24/7 control centre</div>
+              <div class="step-text">
+                You, a family member or a healthcare professional calls our team and briefly
+                describes what’s happening and where you are.
+              </div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <div>
+              <div class="step-title">Clinical triage & priority level</div>
+              <div class="step-text">
+                A trained dispatcher asks key questions to assess urgency, risk and equipment
+                needs. We’ll advise you if you should instead call 999.
+              </div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <div>
+              <div class="step-title">Dispatch & live tracking</div>
+              <div class="step-text">
+                We allocate the closest suitable crew and vehicle. You’ll receive an ETA and a
+                link to track the ambulance on its way to you.
+              </div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">4</div>
+            <div>
+              <div class="step-title">Transfer & hospital handover</div>
+              <div class="step-text">
+                During transfer we monitor and treat as needed. On arrival, crew hand over to the
+                receiving team with a clear summary of care given.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="timeline-key">
+          <strong>Who can book?</strong>
+          <div class="timeline-key-row">
+            <div class="timeline-label">
+              <span class="colour"></span> Hospitals, clinics & care homes for regular or ad-hoc transfers.
+            </div>
+            <div class="timeline-label">
+              <span class="colour"></span> Insurance & assistance providers requiring medically-escorted travel.
+            </div>
+            <div class="timeline-label">
+              <span class="colour"></span> Private individuals needing safe transport to or from hospital.
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- SAFETY & CLINICAL STANDARDS -->
+    <section class="section" id="safety">
+      <div class="section-heading">
+        <div>
+          <div class="section-kicker">Safety & governance</div>
+          <h2 class="section-title">Hospital-grade standards before, during and after every journey.</h2>
+        </div>
+        <p class="section-description">
+          We don’t improvise care. Our policies, training and equipment are built around national
+          ambulance and patient-transport standards.
+        </p>
+      </div>
+
+      <div class="safety-grid">
+        <div class="safety-card">
+          <h3>Clinical leadership & training</h3>
+          <p>
+            Our crews include HCPC-registered paramedics, ambulance technicians and trained
+            patient transport staff. Every journey is backed by clinical oversight.
+          </p>
+          <ul class="safety-list">
+            <li>Mandatory annual life-support refreshers.</li>
+            <li>Scenario-based training for time-critical transfers.</li>
+            <li>Clear escalation pathways to senior clinicians.</li>
+          </ul>
+          <div class="tag-row">
+            <span class="tag-chip">Paramedic-led care</span>
+            <span class="tag-chip">Regular drills</span>
+            <span class="tag-chip">Clinical protocols</span>
+          </div>
+        </div>
+
+        <div class="safety-card">
+          <h3>Vehicles & equipment</h3>
+          <p>
+            Our fleet is equipped for both routine and high-acuity transfers, with continuous
+            maintenance schedules and pre-journey checks.
+          </p>
+          <ul class="safety-list">
+            <li>Monitors, oxygen, suction and defibrillation equipment.</li>
+            <li>Wheelchair-accessible and stretcher-equipped vehicles.</li>
+            <li>Digital vehicle checks and logged maintenance history.</li>
+          </ul>
+          <div class="tag-row">
+            <span class="tag-chip">GPS-tracked</span>
+            <span class="tag-chip">Infection control</span>
+            <span class="tag-chip">Regular servicing</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STORIES & FAQ -->
+    <section class="section" id="stories">
+      <div class="section-heading">
+        <div>
+          <div class="section-kicker">Real journeys</div>
+          <h2 class="section-title">Transfers that remove stress, not add to it.</h2>
+        </div>
+        <p class="section-description">
+          Behind every booking is a family, a clinician and a patient who needs clear
+          communication and calm, competent care.
+        </p>
+      </div>
+
+      <div class="stories-grid">
+        <article class="story-card">
+          <h3>“We were at the new hospital before I could start worrying.”</h3>
+          <p>
+            “Dad needed to be moved for a specialist procedure and was anxious about the journey.
+            The crew explained every step, monitored him closely and called ahead so the ward were
+            ready when we arrived. It felt organised, not rushed.”
+          </p>
+          <div class="story-meta">
+            <span>Family hospital transfer · Medical ward to cardiac unit</span>
+            <span>Planned same-day transfer</span>
+          </div>
+          <div class="quote-mark">“</div>
+        </article>
+
+        <aside class="faq-list">
+          <div class="faq-item">
+            <h3>Do you replace 999 emergency services?</h3>
+            <p>
+              No. If someone’s life is in immediate danger (severe breathing problems, chest pain,
+              heavy bleeding, unconsciousness), you must call <strong>999</strong>. We support
+              urgent and planned transfers where 999 is not appropriate or has advised alternatives.
+            </p>
+          </div>
+          <div class="faq-item">
+            <h3>Can a family member or carer travel with the patient?</h3>
+            <p>
+              In most cases, yes. Space and safety permitting, one escort can travel. For ICU or
+              high-dependency transfers, this may not be possible and we’ll explain the options.
+            </p>
+          </div>
+          <div class="faq-item">
+            <h3>How do I arrange regular hospital transport?</h3>
+            <p>
+              For dialysis, oncology or other recurring appointments, our team can set up a
+              recurring booking pattern so you don’t have to call every time.
+            </p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- SIMPLE BOOKING ANCHOR -->
+    <section class="section" id="book">
+      <div class="section-heading">
+        <div>
+          <div class="section-kicker">Book a transfer</div>
+          <h2 class="section-title">Ready to arrange a journey?</h2>
+        </div>
+        <p class="section-description">
+          Call us for anything urgent. For planned transfers, you can send us the details below
+          and our dispatchers will confirm by phone.
+        </p>
+      </div>
+
+      <div class="safety-card">
+        <p style="font-size: 12px; margin-bottom: 10px;">
+          You can connect this section to your own online form. For now, we recommend:
+        </p>
+        <ul class="safety-list">
+          <li>Patient name, date of birth and contact details.</li>
+          <li>Pickup address and destination hospital/clinic.</li>
+          <li>Preferred date/time and urgency.</li>
+          <li>Clinical needs (oxygen, monitoring, escort, wheelchair/stretcher).</li>
+          <li>Referring clinician or organisation (if applicable).</li>
+        </ul>
+        <div class="tag-row" style="margin-top: 10px;">
+          <a href="tel:+441234567890" class="btn btn-primary">
+            <span class="icon">📞</span> Speak to dispatch now
+          </a>
+          <a href="mailto:bookings@example.com" class="btn btn-ghost">
+            <span class="icon">✉️</span> Email booking details
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- CONTACT BAR -->
+  <div class="contact-bar">
+    <div class="contact-inner">
+      <div class="contact-info">
+        <strong>Not sure if you need an ambulance or a taxi?</strong><br/>
+        Call our team and we’ll advise the safest option. If at any point we believe you need
+        999 emergency services, we’ll tell you immediately.
+      </div>
+      <div class="contact-actions">
+        <a href="tel:+441234567890" class="btn btn-primary">
+          <span class="icon">📞</span> Call control centre
+        </a>
+        <a href="#services" class="btn btn-ghost">
+          <span class="icon">ℹ️</span> View services
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
