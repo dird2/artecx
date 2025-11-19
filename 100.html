@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>100 – Winter Fire</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      background: #ffffff;
+      color: #000000;
+      min-height: 100vh;
+    }
+
+    /* Section 01 wrapper */
+    .section-hero {
+      position: relative;
+      min-height: 100vh;
+      padding: 120px 40px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: flex-start;
+    }
+
+    /* Logo top-left */
+    .logo {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      font-size: 40px;
+      font-weight: 700;
+      letter-spacing: 0em;
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .logo span.c-symbol {
+      font-size: 14px;
+      vertical-align: top;
+      transform: translateY(-4px);
+    }
+
+    /* Header: fixed at top */
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 20;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(8px);
+    }
+
+    .top-bar {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 16px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .nav-links {
+      display: inline-flex;
+      align-items: center;
+      gap: 20px;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #000000;
+      opacity: 0.8;
+    }
+
+    .nav-links a:hover {
+      opacity: 1;
+    }
+
+    
+
+    /* Centered video container */
+    .video-wrapper {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 40px;
+    }
+
+    .video-frame {
+      width: 80vw;
+      max-width: 960px;
+      aspect-ratio: 16 / 9;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid #e0e0e0;
+      background: #000; /* so you see the frame even before video loads */
+    }
+
+    .video-frame video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Section 02: Ceylon spices story */
+    .section-story {
+      padding: 96px 40px 120px;
+      background: #ffffff;
+    }
+
+    .story-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .story-header {
+      margin-bottom: 40px;
+    }
+
+    .story-header h2 {
+      font-size: 32px;
+      font-weight: 600;
+    }
+
+    .story-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.15fr);
+      gap: 48px;
+      align-items: flex-start;
+    }
+
+    .story-copy h3 {
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+
+    .story-copy p {
+      font-size: 15px;
+      line-height: 1.7;
+      opacity: 0.85;
+      margin-bottom: 10px;
+    }
+
+    .story-visual {
+      display: flex;
+      justify-content: center;
+    }
+
+    .spice-panel {
+      width: 100%;
+      border-radius: 24px;
+      border: 1px solid #e0e0e0;
+      padding: 24px 24px 20px;
+      background: #ffffff;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.03);
+    }
+
+    .spice-panel-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      opacity: 0.6;
+      margin-bottom: 18px;
+    }
+
+    .spice-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .spice-item {
+      text-align: center;
+    }
+
+    .spice-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 1px solid #d0d0d0;
+      margin: 0 auto 10px;
+      position: relative;
+      background: linear-gradient(135deg, #f9f9f9, #f2f2f2);
+      overflow: hidden;
+    }
+
+    .spice-icon::before {
+      content: "";
+      position: absolute;
+      inset: 18%;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+    }
+
+    .spice-item h4 {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      margin-bottom: 6px;
+    }
+
+    .spice-item p {
+      font-size: 12px;
+      line-height: 1.6;
+      opacity: 0.75;
+    }
+
+    .spice-footnote {
+      margin-top: 14px;
+      font-size: 11px;
+      opacity: 0.55;
+      text-align: right;
+      font-style: italic;
+    }
+
+    /* Section 03: Island cravings slider */
+    .section-dishes {
+      padding: 80px 40px 120px;
+      background: #ffffff;
+    }
+
+    .dishes-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .dishes-header h2 {
+      font-size: 30px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .dishes-header p {
+      font-size: 14px;
+      line-height: 1.7;
+      opacity: 0.8;
+      max-width: 520px;
+    }
+
+    .dish-carousel {
+      position: relative;
+      overflow: hidden;
+      border-radius: 24px;
+    }
+
+    .dish-track {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .dish-card {
+      flex: 0 0 100%;
+      padding: 24px 24px 26px;
+      background: #ffffff;
+      border-radius: 24px;
+      border: 1px solid #e0e0e0;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.03);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .dish-image {
+      height: 180px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #f8f4f0, #f1ebe4);
+      border: 1px solid #e3d6c5;
+    }
+
+    .dish-card h3 {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .dish-card p {
+      font-size: 14px;
+      line-height: 1.7;
+      opacity: 0.85;
+    }
+
+    .dish-nav {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .dish-nav button {
+      border-radius: 999px;
+      border: 1px solid #d0d0d0;
+      background: #ffffff;
+      padding: 6px 12px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .dish-nav button:hover {
+      background: #000000;
+      color: #ffffff;
+      border-color: #000000;
+    }
+
+    /* Section 03: The guide */
+    .section-guide {
+      padding: 80px 40px 120px;
+      background: #ffffff;
+    }
+
+    .guide-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .guide-header h2 {
+      font-size: 30px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .guide-header p {
+      font-size: 14px;
+      line-height: 1.7;
+      opacity: 0.8;
+      max-width: 520px;
+    }
+
+    .guide-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .guide-card {
+      border-radius: 24px;
+      border: 1px solid #e0e0e0;
+      padding: 24px 24px 22px;
+      background: #ffffff;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.03);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .guide-city {
+      font-size: 16px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    .guide-card p {
+      font-size: 14px;
+      line-height: 1.7;
+      opacity: 0.85;
+    }
+
+    /* Section 05: Reserve the evening */
+    .section-reserve {
+      padding: 80px 40px 120px;
+      background: #ffffff;
+    }
+
+    .reserve-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .reserve-header h2 {
+      font-size: 30px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .reserve-header p {
+      font-size: 14px;
+      line-height: 1.7;
+      opacity: 0.8;
+      max-width: 520px;
+    }
+
+    .reserve-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 24px;
+      align-items: flex-start;
+    }
+
+    .reserve-card {
+      border-radius: 24px;
+      border: 1px solid #e0e0e0;
+      padding: 24px 24px 22px;
+      background: #ffffff;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.03);
+    }
+
+    .reserve-actions {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn-primary {
+      border-radius: 999px;
+      border: 1px solid #000000;
+      background: #000000;
+      color: #ffffff;
+      padding: 10px 22px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.9;
+    }
+
+    .btn-ghost {
+      border-radius: 999px;
+      border: 1px solid #d0d0d0;
+      background: #ffffff;
+      color: #000000;
+      padding: 10px 18px;
+      font-size: 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+    }
+
+    .btn-ghost:hover {
+      border-color: #000000;
+    }
+
+    .reserve-note {
+      font-size: 12px;
+      line-height: 1.6;
+      opacity: 0.7;
+      margin-top: 10px;
+    }
+
+    .reserve-side-title {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      margin-bottom: 10px;
+    }
+
+    .reserve-side p {
+      font-size: 14px;
+      line-height: 1.7;
+      opacity: 0.85;
+      margin-bottom: 10px;
+    }
+
+    .reserve-meta {
+      font-size: 12px;
+      opacity: 0.7;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+      .section-hero {
+        padding: 96px 16px 32px;
+      }
+      .logo {
+        font-size: 28px;
+        letter-spacing: 0em;
+      }
+      .video-frame {
+        width: 100%;
+        border-radius: 16px;
+      }
+      .section-story {
+        padding: 72px 16px 96px;
+      }
+      .story-layout {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      .spice-grid {
+        grid-template-columns: 1fr;
+      }
+      .section-dishes {
+        padding: 64px 16px 96px;
+      }
+      .reserve-grid {
+        grid-template-columns: 1fr;
+      }
+      .reserve-form {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Footer */
+    .site-footer {
+      background: #050505;
+      color: #ffffff;
+      padding: 48px 40px 28px;
+      margin-top: 40px;
+    }
+
+    .footer-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) repeat(3, minmax(0, 1fr));
+      gap: 32px;
+      align-items: flex-start;
+    }
+
+    .footer-brand-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .footer-brand-text {
+      font-size: 14px;
+      line-height: 1.7;
+      opacity: 0.8;
+      max-width: 360px;
+    }
+
+    .footer-heading {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      margin-bottom: 10px;
+      opacity: 0.75;
+    }
+
+    .footer-list {
+      list-style: none;
+      font-size: 14px;
+      line-height: 1.9;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-list a {
+      color: inherit;
+      text-decoration: none;
+      opacity: 0.85;
+    }
+
+    .footer-list a:hover {
+      opacity: 1;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 16px;
+      font-size: 12px;
+      opacity: 0.7;
+    }
+
+    .footer-bottom a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+      .site-footer {
+        padding: 40px 16px 24px;
+      }
+      .footer-top {
+        grid-template-columns: 1fr 1fr;
+        row-gap: 24px;
+      }
+      .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="top-bar">
+      <div class="logo">
+        <span>100</span><span class="c-symbol">©</span>
+      </div>
+      <nav class="nav-links">
+        <a href="#">Colombo</a>
+        <a href="#">Dubai</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="section-hero">
+
+    <!-- Centered video -->
+    <div class="video-wrapper">
+      <div class="video-frame">
+        <video autoplay muted loop playsinline>
+          <!-- Replace the src below with your own wood-burning winter fire video file -->
+          <source src="https://cdn.coverr.co/videos/coverr-cozy-winter-fireplace-1565002985?download=1" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 02: Island cravings recreated -->
+  <section class="section-dishes">
+    <div class="dishes-inner">
+      <div class="dishes-header">
+        <h2>Island cravings recreated. Simple &amp; Authentic.</h2>
+        <p>Five winter favourites, built on Ceylon spice and fire-side comfort.</p>
+      </div>
+      <div class="dish-carousel">
+        <div class="dish-track">
+          <article class="dish-card">
+            <div class="dish-image dish-image-1"></div>
+            <h3>Jaffna Crab Curry</h3>
+            <p>Slow-simmered northern spice, finished with coconut and served with roasted paan.</p>
+          </article>
+          <article class="dish-card">
+            <div class="dish-image dish-image-2"></div>
+            <h3>Galle Prawn Fry</h3>
+            <p>Black pepper, chilli and garlic prawns, crisp from the pan and bright with lime.</p>
+          </article>
+          <article class="dish-card">
+            <div class="dish-image dish-image-3"></div>
+            <h3>Kandy Black Pork</h3>
+            <p>Charred, slow-cooked pork in dark roast spice, paired with tempered greens.</p>
+          </article>
+          <article class="dish-card">
+            <div class="dish-image dish-image-4"></div>
+            <h3>Colombo Lamprais</h3>
+            <p>Banana leaf, fragrant rice and layered curry – a classic rebuilt for winter.</p>
+          </article>
+          <article class="dish-card">
+            <div class="dish-image dish-image-5"></div>
+            <h3>Coconut Treacle Pudding</h3>
+            <p>Warm jaggery sponge, toasted coconut and a hint of Ceylon cinnamon.</p>
+          </article>
+        </div>
+      </div>
+      <div class="dish-nav">
+        <button type="button" class="dish-prev" aria-label="Previous dish">&#8249;</button>
+        <button type="button" class="dish-next" aria-label="Next dish">&#8250;</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 03: Ceylon spices -->
+  <section class="section-story">
+    <div class="story-inner">
+      <div class="story-header">
+        <h2>Taking Ceylon cuisine to the world.</h2>
+      </div>
+
+      <div class="story-layout">
+        <div class="story-copy">
+          <h3>Spice as a design language.</h3>
+          <p>
+            Our kitchens treat spice like an architect treats line and shadow. Cinnamon draws warmth, cardamom lifts
+            the space between flavours, and turmeric grounds the dish with colour and structure.
+          </p>
+          <p>
+            The result is a modern Ceylon table: recognisably Sri Lankan, composed for the world stage.
+          </p>
+        </div>
+
+        <div class="story-visual">
+          <div class="spice-panel">
+            <div class="spice-panel-label">Ceylon spice studies</div>
+            <div class="spice-grid">
+              <article class="spice-item">
+                <div class="spice-icon cinnamon"></div>
+                <h4>Ceylon Cinnamon</h4>
+                <p>Soft, layered heat for broths, desserts and winter service.</p>
+              </article>
+              <article class="spice-item">
+                <div class="spice-icon cardamom"></div>
+                <h4>Cardamom</h4>
+                <p>Citrus-bright aromatics that lift curries and rice dishes.</p>
+              </article>
+              <article class="spice-item">
+                <div class="spice-icon turmeric"></div>
+                <h4>Turmeric</h4>
+                <p>Earthy gold that anchors stocks, marinades and sauces.</p>
+              </article>
+            </div>
+            <div class="spice-footnote">Placeholder icons – replace with your own Ceylon spice artwork.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 04: The Guide -->
+  <section class="section-guide">
+    <div class="guide-inner">
+      <div class="guide-header">
+        <h2>The Guide</h2>
+        <p>Two cities, one kitchen language. Choose your guide to 100° in Colombo or Dubai.</p>
+      </div>
+      <div class="guide-grid">
+        <article class="guide-card">
+          <div class="guide-city">Colombo</div>
+          <p>Service hours, neighbourhood notes and how to reach our Colombo dining room from across the city.</p>
+        </article>
+        <article class="guide-card">
+          <div class="guide-city">Dubai</div>
+          <p>Reservation details, dress code and directions for guests joining us in Dubai.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 05: Reserve to visit us -->
+  <section class="section-reserve">
+    <div class="reserve-inner">
+      <div class="reserve-header">
+        <h2>Reserve the evening</h2>
+        <p>Choose how you’d like to connect with us – request a reservation or explore our current tasting menu.</p>
+      </div>
+      <div class="reserve-grid">
+        <div class="reserve-card">
+          
+          <div class="reserve-actions">
+            <button type="button" class="btn-primary">Request reservation</button>
+            <a href="#" class="btn-ghost">
+              <span>Download tasting menu</span>
+            </a>
+          </div>
+          <p class="reserve-note">Online requests are subject to confirmation by our team. For same-day visits, please call the restaurant.</p>
+        </div>
+        <div class="reserve-card reserve-side">
+          <div class="reserve-side-title">Tasting menu</div>
+          <p>Our tasting menu changes with the season and the market. Expect 6–8 plates built on Ceylon spice, winter fire and simple, honest produce.</p>
+          <p class="reserve-meta">PDF download includes full course list, dietary notes and optional pairing suggestions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="footer-brand-title">100°</div>
+          <p class="footer-brand-text">
+            Wood-fire, Ceylon spice and winter service. A small Sri Lankan kitchen reaching guests from Colombo to Dubai.
+          </p>
+        </div>
+        <div>
+          <div class="footer-heading">About us</div>
+          <ul class="footer-list">
+            <li><a href="#">Our story</a></li>
+            <li><a href="#">Chefs</a></li>
+            <li><a href="#">Philosophy</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-heading">Tasting menus</div>
+          <ul class="footer-list">
+            <li><a href="#">Current tasting</a></li>
+            <li><a href="#">Seasonal archives</a></li>
+            <li><a href="#">Dietary notes</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-heading">Wine list</div>
+          <ul class="footer-list">
+            <li><a href="#">By the glass</a></li>
+            <li><a href="#">Cellar highlights</a></li>
+            <li><a href="#">Pairings</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>© 100° <span id="footer-year"></span>. All rights reserved.</div>
+        <div>Locations: Colombo · Dubai</div>
+      </div>
+    </div>
+  </footer>
+  <script>
+    (function () {
+      const track = document.querySelector('.dish-track');
+      const cards = document.querySelectorAll('.dish-card');
+      const prev = document.querySelector('.dish-prev');
+      const next = document.querySelector('.dish-next');
+      if (!track || cards.length === 0 || !prev || !next) return;
+
+      let index = 0;
+
+      function update() {
+        const cardWidth = cards[0].getBoundingClientRect().width;
+        track.style.transform = 'translateX(' + (-index * cardWidth) + 'px)';
+      }
+
+      prev.addEventListener('click', function () {
+        index = (index - 1 + cards.length) % cards.length;
+        update();
+      });
+
+      next.addEventListener('click', function () {
+        index = (index + 1) % cards.length;
+        update();
+      });
+
+      window.addEventListener('resize', update);
+      update();
+    })();
+  </script>
+</body>
+</html>
